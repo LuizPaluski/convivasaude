@@ -1,10 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Fragment } from "react"
 import Link from "next/link"
 import {
-  User, Users, CheckCircle, ArrowRight, ChevronLeft, Heart, Shield, Phone,
+  User, Users, CheckCircle, Check, ArrowRight, ChevronLeft, ChevronDown,
+  Heart, Shield, Phone,
 } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const STEP_LABELS = ["Início", "Sobre você", "Beneficiário", "Pacote", "Conclusão"]
 
@@ -12,6 +14,16 @@ const FAIXAS = [
   "60–65 anos", "66–70 anos", "71–75 anos",
   "76–80 anos", "81–85 anos", "86–90 anos", "90+ anos",
 ]
+
+const CONVENIOS_OPCOES = [
+  { value: "Unimed BH",       label: "Unimed BH" },
+  { value: "Unimed Nacional", label: "Unimed Nacional" },
+  { value: "Desban",          label: "Desban" },
+  { value: "Fundaffemg",      label: "Fundaffemg" },
+  { value: "Particular",      label: "Particular" },
+  { value: "Outros",          label: "Outros" },
+]
+const CONVENIOS_COM_CARTEIRA = new Set(["Unimed BH", "Unimed Nacional", "Desban", "Fundaffemg"])
 
 const BENEFICIOS = [
   "Médico de referência dedicado",
@@ -23,53 +35,64 @@ const BENEFICIOS = [
   "Sem carência · Sem fidelidade",
 ]
 
+// Shared input style helpers
+const inputCls = "w-full rounded-xl px-4 py-3.5 text-sm outline-none transition-all bg-background"
+const inputStyle: React.CSSProperties = { border: "1.5px solid var(--border)" }
+function onFocusInput(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) {
+  e.currentTarget.style.borderColor = "var(--primary)"
+  e.currentTarget.style.boxShadow = "0 0 0 3px color-mix(in oklch, var(--primary) 15%, transparent)"
+}
+function onBlurInput(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) {
+  e.currentTarget.style.borderColor = "var(--border)"
+  e.currentTarget.style.boxShadow = ""
+}
+
 export default function ContratarPage() {
-  const [step, setStep] = useState(0)
+  const [step, setStep]           = useState(0)
   const [animating, setAnimating] = useState(false)
   const [direction, setDirection] = useState<"forward" | "back">("forward")
 
   // Form state
-  const [tipo, setTipo] = useState<"mim" | "familiar" | null>(null)
-  const [nome, setNome] = useState("")
-  const [email, setEmail] = useState("")
-  const [whatsapp, setWhatsapp] = useState("")
+  const [tipo, setTipo]               = useState<"mim" | "familiar" | null>(null)
+  const [nome, setNome]               = useState("")
+  const [email, setEmail]             = useState("")
+  const [whatsapp, setWhatsapp]       = useState("")
   const [faixaEtaria, setFaixaEtaria] = useState("")
-  const [temConvenio, setTemConvenio] = useState<"sim" | "nao" | null>(null)
-  const [convenio, setConvenio] = useState("")
+  const [dataNasc, setDataNasc]       = useState("")
+  const [convenio, setConvenio]       = useState("")
+  const [numeroCarteira, setNumeroCarteira] = useState("")
+  const [qualConvenio, setQualConvenio]     = useState("")
 
-  // Progressive field visibility
-  const [showEmail, setShowEmail] = useState(false)
+  // Progressive field visibility (step 1)
+  const [showEmail, setShowEmail]     = useState(false)
   const [showWhatsapp, setShowWhatsapp] = useState(false)
-  const [showConvenioInput, setShowConvenioInput] = useState(false)
 
-  const nomeValido = nome.trim().split(/\s+/).filter(Boolean).length >= 2
+  // Derived
+  const nomeValido     = nome.trim().split(/\s+/).filter(Boolean).length >= 2
   const whatsappValido = whatsapp.replace(/\D/g, "").length >= 10
+  const showCarteira      = CONVENIOS_COM_CARTEIRA.has(convenio)
+  const showQualConvenio  = convenio === "Outros"
 
-  const progressPercent = (step / 4) * 100
+  const canContinue =
+    step === 1 ? nomeValido && whatsappValido :
+    step === 2 ? faixaEtaria !== "" && convenio !== "" :
+    true
 
   useEffect(() => {
     if (nomeValido && !showEmail) setShowEmail(true)
-  }, [nomeValido]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [nomeValido]) // eslint-disable-line
 
   useEffect(() => {
     if (showEmail && !showWhatsapp) {
       const t = setTimeout(() => setShowWhatsapp(true), 200)
       return () => clearTimeout(t)
     }
-  }, [showEmail]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (temConvenio === "sim") setShowConvenioInput(true)
-    else { setShowConvenioInput(false); setConvenio("") }
-  }, [temConvenio])
+  }, [showEmail]) // eslint-disable-line
 
   function goTo(next: number, dir: "forward" | "back" = "forward") {
     setDirection(dir)
     setAnimating(true)
-    setTimeout(() => {
-      setStep(next)
-      setAnimating(false)
-    }, 180)
+    setTimeout(() => { setStep(next); setAnimating(false) }, 180)
   }
 
   function handleTipoSelect(t: "mim" | "familiar") {
@@ -78,63 +101,110 @@ export default function ContratarPage() {
   }
 
   function handleContinue() {
-    if (step === 1) goTo(2)
-    else if (step === 2) goTo(3)
-    else if (step === 3) goTo(4)
+    if (step < 4) goTo(step + 1)
   }
 
   function handleBack() {
-    if (step === 2) goTo(1, "back")
-    else if (step === 3) goTo(2, "back")
-    else goTo(step - 1, "back")
+    goTo(step - 1, "back")
   }
 
-  const canContinue = step === 1
-    ? nomeValido && whatsappValido
-    : step === 2
-    ? faixaEtaria !== ""
-    : true
+  function handleConvenioChange(v: string) {
+    setConvenio(v)
+    setNumeroCarteira("")
+    setQualConvenio("")
+  }
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--background)" }}>
 
-      {/* ── Header ────────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50" style={{ background: "color-mix(in oklch, var(--background) 95%, transparent)", backdropFilter: "blur(12px)", borderBottom: "1px solid var(--border)" }}>
-        <div className="mx-auto max-w-xl px-6 h-14 flex items-center">
-          <img src="/logo.svg" alt="Conviva Saúde" className="h-7 w-auto" />
+      {/* ── Header ──────────────────────────────────────────────────────────── */}
+      <header
+        className="sticky top-0 z-50"
+        style={{
+          background: "color-mix(in oklch, var(--background) 95%, transparent)",
+          backdropFilter: "blur(12px)",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
+        {/* Logo + step indicator row */}
+        <div className="mx-auto max-w-2xl px-6">
+          <div className="h-16 flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center shrink-0">
+              <img src="/logo.svg" alt="Conviva Saúde" className="h-10 w-auto" />
+            </Link>
+
+            {/* Mobile: step count */}
+            <div className="sm:hidden text-right">
+              <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "var(--muted-foreground)" }}>
+                Passo {step + 1} de {STEP_LABELS.length}
+              </p>
+              <p className="text-xs font-bold" style={{ color: "var(--primary)" }}>
+                {STEP_LABELS[step]}
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* Progress bar */}
-        <div className="relative h-1" style={{ background: "var(--muted)" }}>
+        {/* Progress bar (thin) */}
+        <div className="relative h-[3px]" style={{ background: "var(--border)" }}>
           <div
             className="absolute inset-y-0 left-0 transition-all duration-500 ease-out"
-            style={{ width: `${progressPercent}%`, background: "var(--primary)" }}
+            style={{ width: `${(step / 4) * 100}%`, background: "var(--primary)" }}
           />
         </div>
 
-        {/* Step labels */}
-        <div className="mx-auto max-w-xl px-4">
-          <div className="flex justify-between py-2">
-            {STEP_LABELS.map((label, i) => (
-              <span
-                key={label}
-                className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider transition-colors duration-300"
-                style={{
-                  color: i === step
-                    ? "var(--primary)"
-                    : i < step
-                    ? "color-mix(in oklch, var(--primary) 50%, transparent)"
-                    : "color-mix(in oklch, var(--muted-foreground) 40%, transparent)",
-                }}
-              >
-                {label}
-              </span>
-            ))}
+        {/* Desktop step labels with circles + connecting line */}
+        <div className="hidden sm:block mx-auto max-w-2xl px-8 pt-3 pb-3">
+          <div className="flex items-start">
+            {STEP_LABELS.map((label, i) => {
+              const isCompleted = i < step
+              const isActive    = i === step
+              return (
+                <Fragment key={label}>
+                  {/* Connecting line segment (before each step except the first) */}
+                  {i > 0 && (
+                    <div className="flex-1 pt-4">
+                      <div
+                        className="h-0.5 transition-colors duration-500"
+                        style={{ background: i <= step ? "var(--primary)" : "var(--border)" }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Circle + label */}
+                  <div className="flex flex-col items-center gap-1.5 shrink-0" style={{ minWidth: "3rem" }}>
+                    <div
+                      className="size-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300"
+                      style={{
+                        background: isCompleted || isActive ? "var(--primary)" : "var(--card)",
+                        color: isCompleted || isActive ? "var(--primary-foreground)" : "var(--muted-foreground)",
+                        border: `2px solid ${isCompleted || isActive ? "var(--primary)" : "var(--border)"}`,
+                        boxShadow: isActive ? "0 0 0 4px color-mix(in oklch, var(--primary) 18%, transparent)" : undefined,
+                      }}
+                    >
+                      {isCompleted ? <Check className="size-3.5" strokeWidth={2.5} /> : i + 1}
+                    </div>
+                    <span
+                      className="text-[9px] font-semibold uppercase tracking-wider text-center leading-tight transition-colors duration-300"
+                      style={{
+                        color: isActive ? "var(--primary)" :
+                               isCompleted ? "var(--muted-foreground)" :
+                               "color-mix(in oklch, var(--muted-foreground) 50%, transparent)",
+                        fontWeight: isActive ? 700 : 600,
+                      }}
+                    >
+                      {label}
+                    </span>
+                  </div>
+                </Fragment>
+              )
+            })}
           </div>
         </div>
       </header>
 
-      {/* ── Main ──────────────────────────────────────────────────────────── */}
+      {/* ── Main ────────────────────────────────────────────────────────────── */}
       <main className="flex-1 flex flex-col items-center py-10 px-6">
         <div
           className="w-full max-w-lg"
@@ -147,7 +217,7 @@ export default function ContratarPage() {
           }}
         >
 
-          {/* ── PASSO 0: Tipo ──────────────────────────────────────────── */}
+          {/* ── PASSO 0: Para quem ──────────────────────────────────────── */}
           {step === 0 && (
             <div>
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2 text-center">
@@ -159,37 +229,76 @@ export default function ContratarPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 {([
-                  { t: "mim" as const, icon: User, title: "Para mim", desc: "Quero contratar para mim mesmo" },
+                  { t: "mim"      as const, icon: User,  title: "Para mim",        desc: "Quero contratar para mim mesmo" },
                   { t: "familiar" as const, icon: Users, title: "Para um familiar", desc: "Sou responsável ou familiar do beneficiário" },
-                ] as const).map(({ t, icon: Icon, title, desc }) => (
-                  <button
-                    key={t}
-                    onClick={() => handleTipoSelect(t)}
-                    className="flex flex-col items-center gap-3 p-6 rounded-2xl text-center transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.97] cursor-pointer"
-                    style={{
-                      border: "2px solid var(--border)",
-                      background: "var(--card)",
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = "color-mix(in oklch, var(--primary) 50%, var(--border))")}
-                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
-                  >
-                    <div
-                      className="size-14 rounded-2xl flex items-center justify-center"
-                      style={{ background: "color-mix(in oklch, var(--primary) 12%, var(--card))" }}
+                ]).map(({ t, icon: Icon, title, desc }) => {
+                  const selected = tipo === t
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => handleTipoSelect(t)}
+                      className="flex flex-col items-center gap-4 p-7 rounded-2xl text-center cursor-pointer transition-all duration-200 relative"
+                      style={{
+                        border: `2px solid ${selected ? "var(--primary)" : "var(--border)"}`,
+                        background: selected
+                          ? "color-mix(in oklch, var(--primary) 8%, var(--card))"
+                          : "var(--card)",
+                        boxShadow: selected
+                          ? "0 4px 20px color-mix(in oklch, var(--primary) 22%, transparent)"
+                          : undefined,
+                        transform: selected ? "translateY(-2px)" : undefined,
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!selected) {
+                          e.currentTarget.style.borderColor = "var(--primary)"
+                          e.currentTarget.style.boxShadow = "0 4px 20px color-mix(in oklch, var(--primary) 22%, transparent)"
+                          e.currentTarget.style.transform = "translateY(-2px)"
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!selected) {
+                          e.currentTarget.style.borderColor = "var(--border)"
+                          e.currentTarget.style.boxShadow = ""
+                          e.currentTarget.style.transform = ""
+                        }
+                      }}
                     >
-                      <Icon className="size-7" style={{ color: "var(--primary)" }} strokeWidth={1.5} />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm md:text-base">{title}</p>
-                      <p className="text-xs mt-0.5" style={{ color: "var(--muted-foreground)" }}>{desc}</p>
-                    </div>
-                  </button>
-                ))}
+                      {/* Check no canto quando selecionado */}
+                      {selected && (
+                        <div
+                          className="absolute top-3 right-3 size-5 rounded-full flex items-center justify-center"
+                          style={{ background: "var(--primary)" }}
+                        >
+                          <Check className="size-3" style={{ color: "var(--primary-foreground)" }} strokeWidth={3} />
+                        </div>
+                      )}
+                      <div
+                        className="size-16 rounded-2xl flex items-center justify-center transition-colors duration-200"
+                        style={{
+                          background: selected
+                            ? "color-mix(in oklch, var(--primary) 18%, var(--card))"
+                            : "color-mix(in oklch, var(--primary) 10%, var(--card))",
+                        }}
+                      >
+                        <Icon
+                          className="size-8 transition-colors duration-200"
+                          style={{ color: "var(--primary)" }}
+                          strokeWidth={1.5}
+                        />
+                      </div>
+                      <div>
+                        <p className="font-bold text-sm md:text-base">{title}</p>
+                        <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--muted-foreground)" }}>{desc}</p>
+                      </div>
+                    </button>
+                  )
+                })}
               </div>
             </div>
           )}
 
-          {/* ── PASSO 1: Sobre você ────────────────────────────────────── */}
+          {/* ── PASSO 1: Sobre você ─────────────────────────────────────── */}
           {step === 1 && (
             <div>
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-1.5">
@@ -203,7 +312,8 @@ export default function ContratarPage() {
                 {/* Nome */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
-                    Nome e sobrenome <span style={{ color: "var(--destructive)" }} className="normal-case tracking-normal font-normal">*</span>
+                    Nome e sobrenome{" "}
+                    <span style={{ color: "var(--destructive)" }} className="normal-case tracking-normal font-normal">*</span>
                   </label>
                   <div className="relative">
                     <input
@@ -211,19 +321,13 @@ export default function ContratarPage() {
                       value={nome}
                       onChange={(e) => setNome(e.target.value)}
                       placeholder="Ex: Maria Aparecida"
-                      className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all pr-10"
-                      style={{
-                        border: "1.5px solid var(--border)",
-                        background: "var(--background)",
-                      }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = "color-mix(in oklch, var(--primary) 50%, var(--border))")}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
+                      className={`${inputCls} pr-10`}
+                      style={inputStyle}
+                      onFocus={onFocusInput}
+                      onBlur={onBlurInput}
                     />
                     {nomeValido && (
-                      <CheckCircle
-                        className="absolute right-3 top-1/2 -translate-y-1/2 size-4"
-                        style={{ color: "var(--success, #22c55e)" }}
-                      />
+                      <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 size-4" style={{ color: "var(--success)" }} />
                     )}
                   </div>
                 </div>
@@ -233,17 +337,19 @@ export default function ContratarPage() {
                   <div className="flex flex-col gap-1.5" style={{ animation: "cvWizardFade 0.35s ease both" }}>
                     <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
                       E-mail{" "}
-                      <span className="normal-case font-normal tracking-normal" style={{ color: "var(--muted-foreground)", opacity: 0.6 }}>(opcional)</span>
+                      <span className="normal-case font-normal tracking-normal" style={{ color: "var(--muted-foreground)", opacity: 0.6 }}>
+                        (opcional)
+                      </span>
                     </label>
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="seu@email.com"
-                      className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
-                      style={{ border: "1.5px solid var(--border)", background: "var(--background)" }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = "color-mix(in oklch, var(--primary) 50%, var(--border))")}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
+                      className={inputCls}
+                      style={inputStyle}
+                      onFocus={onFocusInput}
+                      onBlur={onBlurInput}
                     />
                   </div>
                 )}
@@ -252,7 +358,8 @@ export default function ContratarPage() {
                 {showWhatsapp && (
                   <div className="flex flex-col gap-1.5" style={{ animation: "cvWizardFade 0.35s ease both" }}>
                     <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
-                      WhatsApp <span style={{ color: "var(--destructive)" }} className="normal-case tracking-normal font-normal">*</span>
+                      WhatsApp{" "}
+                      <span style={{ color: "var(--destructive)" }} className="normal-case tracking-normal font-normal">*</span>
                     </label>
                     <div className="relative">
                       <input
@@ -260,16 +367,13 @@ export default function ContratarPage() {
                         value={whatsapp}
                         onChange={(e) => setWhatsapp(e.target.value)}
                         placeholder="(31) 9 0000-0000"
-                        className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all pr-10"
-                        style={{ border: "1.5px solid var(--border)", background: "var(--background)" }}
-                        onFocus={(e) => (e.currentTarget.style.borderColor = "color-mix(in oklch, var(--primary) 50%, var(--border))")}
-                        onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
+                        className={`${inputCls} pr-10`}
+                        style={inputStyle}
+                        onFocus={onFocusInput}
+                        onBlur={onBlurInput}
                       />
                       {whatsappValido && (
-                        <CheckCircle
-                          className="absolute right-3 top-1/2 -translate-y-1/2 size-4"
-                          style={{ color: "var(--success, #22c55e)" }}
-                        />
+                        <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 size-4" style={{ color: "var(--success)" }} />
                       )}
                     </div>
                   </div>
@@ -278,7 +382,7 @@ export default function ContratarPage() {
             </div>
           )}
 
-          {/* ── PASSO 2: Beneficiário ──────────────────────────────────── */}
+          {/* ── PASSO 2: Beneficiário ───────────────────────────────────── */}
           {step === 2 && (
             <div>
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-1.5">
@@ -288,79 +392,125 @@ export default function ContratarPage() {
                 Nos ajuda a preparar as informações certas para você.
               </p>
 
-              {/* Faixa etária */}
-              <div className="mb-7">
-                <p className="text-sm font-semibold mb-3">Qual a faixa etária?</p>
-                <div className="grid grid-cols-3 gap-2">
-                  {FAIXAS.map((f) => {
-                    const selected = faixaEtaria === f
-                    return (
-                      <button
-                        key={f}
-                        onClick={() => setFaixaEtaria(f)}
-                        className="rounded-xl py-3 px-2 text-xs font-medium text-center transition-all duration-150 active:scale-[0.97]"
-                        style={{
-                          border: `1.5px solid ${selected ? "var(--primary)" : "var(--border)"}`,
-                          background: selected
-                            ? "color-mix(in oklch, var(--primary) 10%, var(--card))"
-                            : "var(--card)",
-                          color: selected ? "var(--primary)" : undefined,
-                          fontWeight: selected ? 600 : undefined,
-                        }}
-                      >
-                        {f}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* Convênio — progressive */}
-              {faixaEtaria && (
-                <div style={{ animation: "cvWizardFade 0.35s ease both" }}>
-                  <p className="text-sm font-semibold mb-3">Já possui convênio de saúde?</p>
-                  <div className="flex gap-3 mb-4">
-                    {(["sim", "nao"] as const).map((v) => {
-                      const selected = temConvenio === v
+              <div className="flex flex-col gap-7">
+                {/* Faixa etária */}
+                <div>
+                  <p className="text-sm font-semibold mb-3">
+                    Faixa etária <span style={{ color: "var(--destructive)" }}>*</span>
+                  </p>
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+                    {FAIXAS.map((f) => {
+                      const sel = faixaEtaria === f
                       return (
                         <button
-                          key={v}
-                          onClick={() => setTemConvenio(v)}
-                          className="flex-1 rounded-xl py-3 text-sm font-medium transition-all duration-150"
+                          key={f}
+                          type="button"
+                          onClick={() => setFaixaEtaria(f)}
+                          className="rounded-xl py-3 px-2 text-xs font-semibold text-center transition-all duration-150 cursor-pointer"
                           style={{
-                            border: `1.5px solid ${selected ? "var(--primary)" : "var(--border)"}`,
-                            background: selected
-                              ? "color-mix(in oklch, var(--primary) 10%, var(--card))"
-                              : "var(--card)",
-                            color: selected ? "var(--primary)" : undefined,
+                            border: `1.5px solid ${sel ? "var(--primary)" : "var(--border)"}`,
+                            background: sel ? "var(--primary)" : "var(--card)",
+                            color: sel ? "var(--primary-foreground)" : "var(--foreground)",
+                            boxShadow: sel ? "0 2px 8px color-mix(in oklch, var(--primary) 28%, transparent)" : undefined,
                           }}
                         >
-                          {v === "sim" ? "Sim" : "Não"}
+                          {f}
                         </button>
                       )
                     })}
                   </div>
-
-                  {showConvenioInput && (
-                    <div style={{ animation: "cvWizardFade 0.35s ease both" }}>
-                      <input
-                        type="text"
-                        value={convenio}
-                        onChange={(e) => setConvenio(e.target.value)}
-                        placeholder="Ex: Unimed, Hapvida, SulAmérica…"
-                        className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
-                        style={{ border: "1.5px solid var(--border)", background: "var(--background)" }}
-                        onFocus={(e) => (e.currentTarget.style.borderColor = "color-mix(in oklch, var(--primary) 50%, var(--border))")}
-                        onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
-                      />
-                    </div>
-                  )}
                 </div>
-              )}
+
+                {/* Data de nascimento */}
+                <div className="flex flex-col gap-1.5" style={{ animation: "cvWizardFade 0.3s ease both" }}>
+                  <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
+                    Data de nascimento{" "}
+                    <span className="normal-case font-normal tracking-normal" style={{ color: "var(--muted-foreground)", opacity: 0.6 }}>
+                      (opcional)
+                    </span>
+                  </label>
+                  <input
+                    type="date"
+                    value={dataNasc}
+                    onChange={(e) => setDataNasc(e.target.value)}
+                    className={inputCls}
+                    style={inputStyle}
+                    onFocus={onFocusInput}
+                    onBlur={onBlurInput}
+                  />
+                </div>
+
+                {/* Convênio — select */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
+                    Convênio de saúde <span style={{ color: "var(--destructive)" }}>*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={convenio}
+                      onChange={(e) => handleConvenioChange(e.target.value)}
+                      className={`${inputCls} appearance-none pr-10 cursor-pointer`}
+                      style={inputStyle}
+                      onFocus={onFocusInput}
+                      onBlur={onBlurInput}
+                    >
+                      <option value="">Selecione...</option>
+                      {CONVENIOS_OPCOES.map(({ value, label }) => (
+                        <option key={value} value={value}>{label}</option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      className="absolute right-3 top-1/2 -translate-y-1/2 size-4 pointer-events-none"
+                      style={{ color: "var(--muted-foreground)" }}
+                    />
+                  </div>
+                </div>
+
+                {/* Número da carteirinha — condicional */}
+                {showCarteira && (
+                  <div className="flex flex-col gap-1.5" style={{ animation: "cvWizardFade 0.3s ease both" }}>
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
+                      Número da carteirinha{" "}
+                      <span className="normal-case font-normal tracking-normal" style={{ color: "var(--muted-foreground)", opacity: 0.6 }}>
+                        (opcional)
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      value={numeroCarteira}
+                      onChange={(e) => setNumeroCarteira(e.target.value)}
+                      placeholder="Número da carteirinha do convênio"
+                      className={inputCls}
+                      style={inputStyle}
+                      onFocus={onFocusInput}
+                      onBlur={onBlurInput}
+                    />
+                  </div>
+                )}
+
+                {/* Qual convênio? — condicional para Outros */}
+                {showQualConvenio && (
+                  <div className="flex flex-col gap-1.5" style={{ animation: "cvWizardFade 0.3s ease both" }}>
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
+                      Qual convênio?
+                    </label>
+                    <input
+                      type="text"
+                      value={qualConvenio}
+                      onChange={(e) => setQualConvenio(e.target.value)}
+                      placeholder="Ex: Hapvida, SulAmérica..."
+                      className={inputCls}
+                      style={inputStyle}
+                      onFocus={onFocusInput}
+                      onBlur={onBlurInput}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
-          {/* ── PASSO 3: Pacote ───────────────────────────────────────── */}
+          {/* ── PASSO 3: Pacote ─────────────────────────────────────────── */}
           {step === 3 && (
             <div>
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-1.5 text-center">
@@ -371,14 +521,13 @@ export default function ContratarPage() {
               </p>
 
               <div
-                className="rounded-2xl p-6 md:p-8 mb-5"
+                className="rounded-2xl p-6 md:p-8 mb-6"
                 style={{
                   background: "linear-gradient(145deg, color-mix(in oklch, var(--primary) 8%, var(--card)), color-mix(in oklch, var(--accent) 30%, var(--card)))",
                   border: "2px solid color-mix(in oklch, var(--primary) 25%, var(--border))",
                   boxShadow: "0 4px 32px color-mix(in oklch, var(--primary) 12%, transparent)",
                 }}
               >
-                {/* Badge + preço */}
                 <div className="flex items-start justify-between mb-4">
                   <span
                     className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
@@ -404,47 +553,32 @@ export default function ContratarPage() {
                 <div className="flex flex-col gap-3 mb-6">
                   {BENEFICIOS.map((b) => (
                     <div key={b} className="flex items-start gap-2.5">
-                      <CheckCircle
-                        className="size-4 shrink-0 mt-0.5"
-                        style={{ color: "var(--success, #22c55e)" }}
-                      />
+                      <CheckCircle className="size-4 shrink-0 mt-0.5" style={{ color: "var(--success)" }} />
                       <span className="text-sm leading-snug">{b}</span>
                     </div>
                   ))}
                 </div>
 
-                <p
-                  className="text-xs pt-4"
-                  style={{ borderTop: "1px solid var(--border)", color: "var(--muted-foreground)" }}
-                >
+                <p className="text-xs pt-4" style={{ borderTop: "1px solid var(--border)", color: "var(--muted-foreground)" }}>
                   O cuidado acontece nas clínicas da <strong>Mais60 Saúde</strong> — referência em geriatria em BH.
                 </p>
               </div>
 
-              {/* CTA inline */}
-              <button
-                onClick={handleContinue}
-                className="w-full flex items-center justify-center gap-2 rounded-xl px-5 py-4 text-sm font-semibold transition-all hover:opacity-90 hover:scale-[1.01] active:scale-[0.99]"
-                style={{
-                  background: "var(--primary)",
-                  color: "var(--primary-foreground)",
-                  boxShadow: "0 4px 16px color-mix(in oklch, var(--primary) 30%, transparent)",
-                }}
-              >
+              <Button className="w-full" size="lg" onClick={handleContinue}>
                 Quero este pacote
                 <ArrowRight className="size-4" />
-              </button>
+              </Button>
             </div>
           )}
 
-          {/* ── PASSO 4: Conclusão ────────────────────────────────────── */}
+          {/* ── PASSO 4: Conclusão ──────────────────────────────────────── */}
           {step === 4 && (
             <div className="text-center" style={{ animation: "cvWizardFade 0.4s ease both" }}>
               <div
                 className="size-20 rounded-full flex items-center justify-center mx-auto mb-6"
-                style={{ background: "color-mix(in oklch, var(--success, #22c55e) 15%, var(--background))" }}
+                style={{ background: "color-mix(in oklch, var(--success) 15%, var(--background))" }}
               >
-                <CheckCircle className="size-10" style={{ color: "var(--success, #22c55e)" }} />
+                <CheckCircle className="size-10" style={{ color: "var(--success)" }} />
               </div>
 
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
@@ -455,23 +589,20 @@ export default function ContratarPage() {
               </p>
 
               {/* Resumo */}
-              <div
-                className="rounded-2xl p-6 mb-8 text-left"
-                style={{ background: "var(--muted)", border: "1px solid var(--border)" }}
-              >
-                <p
-                  className="text-xs font-semibold uppercase tracking-wider mb-4"
-                  style={{ color: "var(--muted-foreground)" }}
-                >
+              <div className="rounded-2xl p-6 mb-8 text-left" style={{ background: "var(--muted)", border: "1px solid var(--border)" }}>
+                <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: "var(--muted-foreground)" }}>
                   Resumo do pedido
                 </p>
                 <div className="flex flex-col gap-2.5">
                   {[
-                    { label: "Nome", value: nome },
-                    { label: "WhatsApp", value: whatsapp },
-                    ...(email ? [{ label: "E-mail", value: email }] : []),
-                    ...(faixaEtaria ? [{ label: "Faixa etária", value: faixaEtaria }] : []),
-                    ...(convenio ? [{ label: "Convênio", value: convenio }] : []),
+                    { label: "Nome",           value: nome },
+                    { label: "WhatsApp",        value: whatsapp },
+                    ...(email         ? [{ label: "E-mail",         value: email }]         : []),
+                    ...(faixaEtaria   ? [{ label: "Faixa etária",   value: faixaEtaria }]   : []),
+                    ...(dataNasc      ? [{ label: "Data de nasc.",   value: dataNasc }]      : []),
+                    ...(convenio      ? [{ label: "Convênio",        value: convenio }]      : []),
+                    ...(numeroCarteira ? [{ label: "Nº carteirinha", value: numeroCarteira }] : []),
+                    ...(qualConvenio  ? [{ label: "Qual convênio",   value: qualConvenio }]  : []),
                     { label: "Contratação", value: tipo === "mim" ? "Para mim mesmo" : "Para um familiar" },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex items-baseline justify-between gap-4">
@@ -483,20 +614,12 @@ export default function ContratarPage() {
               </div>
 
               <div className="flex flex-col gap-3">
-                <a
-                  href="https://wa.me/5531999990000"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 rounded-xl px-5 py-4 text-sm font-semibold transition-all hover:opacity-90 hover:scale-[1.01] active:scale-[0.99]"
-                  style={{
-                    background: "var(--primary)",
-                    color: "var(--primary-foreground)",
-                    boxShadow: "0 4px 16px color-mix(in oklch, var(--primary) 30%, transparent)",
-                  }}
-                >
-                  <Phone className="size-4" />
-                  Falar pelo WhatsApp agora
-                </a>
+                <Button size="lg" className="w-full" asChild>
+                  <a href="https://wa.me/5531999990000" target="_blank" rel="noopener noreferrer">
+                    <Phone className="size-4" />
+                    Falar pelo WhatsApp agora
+                  </a>
+                </Button>
                 <Link
                   href="/"
                   className="w-full flex items-center justify-center rounded-xl px-5 py-3.5 text-sm font-medium transition-colors hover:bg-muted"
@@ -515,7 +638,7 @@ export default function ContratarPage() {
         </div>
       </main>
 
-      {/* ── Barra de navegação inferior ───────────────────────────────────── */}
+      {/* ── Barra de navegação inferior ─────────────────────────────────────── */}
       {step > 0 && step < 4 && (
         <div
           className="sticky bottom-0"
@@ -526,30 +649,22 @@ export default function ContratarPage() {
           }}
         >
           <div className="mx-auto max-w-lg px-6 py-4 flex items-center justify-between gap-4">
-            {/* Voltar */}
-            <button
+            {/* Voltar — secondary outline, equal size, arrow animates left */}
+            <Button
+              variant="outline"
               onClick={handleBack}
-              className="flex items-center gap-1.5 text-sm font-medium px-3 py-2 rounded-lg transition-colors hover:bg-muted"
-              style={{ color: "var(--muted-foreground)" }}
+              className="[&>svg:first-child]:transition-transform hover:[&>svg:first-child]:-translate-x-0.5"
             >
               <ChevronLeft className="size-4" />
               Voltar
-            </button>
+            </Button>
 
-            {/* Continuar (steps 1 e 2 — passo 3 tem CTA inline) */}
+            {/* Continuar — primary (step 3 tem CTA inline no pacote) */}
             {(step === 1 || step === 2) && (
-              <button
-                onClick={handleContinue}
-                disabled={!canContinue}
-                className="flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-35 disabled:cursor-not-allowed disabled:scale-100"
-                style={{
-                  background: "var(--primary)",
-                  color: "var(--primary-foreground)",
-                }}
-              >
+              <Button onClick={handleContinue} disabled={!canContinue}>
                 Continuar
                 <ArrowRight className="size-4" />
-              </button>
+              </Button>
             )}
           </div>
         </div>

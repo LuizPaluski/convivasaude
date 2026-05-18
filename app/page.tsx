@@ -630,7 +630,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Contact ─────────────────────────────────────────────────────── */}
-      <section id="contato" className="py-20 md:py-28">
+      <section id="contato" className="py-20 md:py-28 bg-muted">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
