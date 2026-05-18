@@ -43,13 +43,13 @@ export default function MobileCarousel({ children, desktopClass, mobileWrapClass
     const slides = Array.from(container.children) as HTMLElement[]
     const slide = slides[index]
     if (!slide) return
-    container.scrollTo({ left: slide.offsetLeft - 24, behavior: "smooth" })
+    container.scrollTo({ left: slide.offsetLeft, behavior: "smooth" })
   }
 
   return (
     <>
       {/* Mobile: horizontal scroll carousel */}
-      <div className={`md:hidden${mobileWrapClass ? ` ${mobileWrapClass}` : ""}`}>
+      <div className={`md:hidden${mobileWrapClass ? ` ${mobileWrapClass}` : ""}`} style={{ overflowX: "hidden" }}>
         <div ref={scrollRef} className="carousel-track">
           {items.map((item, i) => (
             <div key={i} className="carousel-slide">
