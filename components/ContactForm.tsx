@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Shield, ArrowRight, CheckCircle, Loader2, MailIcon } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const CONVENIOS = ["Unimed BH", "Unimed Nacional", "Desban", "Fundaffemg", "Particular", "Outros"] as const
 type Convenio = (typeof CONVENIOS)[number]
@@ -227,29 +228,20 @@ export default function ContactForm({
       </div>
 
       {/* Botão enviar */}
-      <button
+      <Button
         type="button"
         onClick={handleSubmit}
-        disabled={!canSubmit || loading}
-        className="w-full flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-semibold transition-all hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] mt-1 disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100"
-        style={{
-          background: "var(--primary)",
-          color: "var(--primary-foreground)",
-          boxShadow: "0 4px 16px color-mix(in oklch, var(--primary) 30%, transparent)",
-        }}
+        disabled={!canSubmit}
+        loading={loading}
+        className="w-full mt-1"
       >
-        {loading ? (
-          <>
-            <Loader2 className="size-4 animate-spin" />
-            Enviando...
-          </>
-        ) : (
+        {loading ? "Enviando..." : (
           <>
             Enviar mensagem
             <ArrowRight className="size-4" />
           </>
         )}
-      </button>
+      </Button>
 
       {/* Rodapé de segurança */}
       <p className="text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5">

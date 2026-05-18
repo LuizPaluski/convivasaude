@@ -227,26 +227,16 @@ export default function FaqPage() {
               Nossa equipe responde em até 2 horas úteis.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <button
-                onClick={() => setShowModal(true)}
-                className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
-                style={{ background: "var(--primary-foreground)", color: "var(--primary)" }}
-              >
+              <Button variant="inverted" onClick={() => setShowModal(true)}>
                 <Phone className="size-4" />
                 Falar com a equipe
-              </button>
-              <Link
-                href="/contratar"
-                className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
-                style={{
-                  background: "transparent",
-                  color: "var(--primary-foreground)",
-                  border: "2px solid color-mix(in oklch, var(--primary-foreground) 40%, transparent)",
-                }}
-              >
-                Contratar agora
-                <ArrowRight className="size-4" />
-              </Link>
+              </Button>
+              <Button variant="outline-inverted" asChild>
+                <Link href="/contratar">
+                  Contratar agora
+                  <ArrowRight className="size-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </section>

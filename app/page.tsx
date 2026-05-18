@@ -167,13 +167,13 @@ export default function HomePage() {
                 className="flex flex-col sm:flex-row gap-3 mb-12"
                 style={{ animation: "cvFadeUp 0.55s ease both", animationDelay: "240ms" }}
               >
-                <Button size="lg" className="gap-2 text-base font-semibold shadow-lg px-8 transition-transform hover:scale-[1.02] active:scale-[0.98]" asChild>
+                <Button size="lg" asChild>
                   <Link href="#contato">
                     Quero contratar agora
                     <ArrowRight className="size-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2 text-base font-semibold border-2 transition-transform hover:scale-[1.02] active:scale-[0.98]" asChild>
+                <Button size="lg" variant="outline" asChild>
                   <Link href="#como-funciona">
                     Como funciona o Conviva Saúde?
                   </Link>
@@ -293,12 +293,7 @@ export default function HomePage() {
             Fale com nossa equipe e entenda como a Conviva Saúde organiza o cuidado no dia a dia.<br />
             Tenha acesso a acompanhamento médico, equipe multidisciplinar especializada e um pacote de cuidados que cabe no bolso.
           </p>
-          <Button
-            size="lg"
-            className="gap-2 text-base font-semibold shadow-lg px-10 py-6 text-lg"
-            style={{ background: "var(--primary-foreground)", color: "var(--primary)" }}
-            asChild
-          >
+          <Button size="lg" variant="inverted" asChild>
             <Link href="#contato">
               Quero saber mais sobre a Conviva Saúde
               <ArrowRight className="size-5" />
@@ -361,20 +356,20 @@ export default function HomePage() {
                 </CardContent>
                 <CardFooter className="flex flex-col gap-2.5">
                   <Button
-                    className="w-full py-6 text-base"
+                    className="w-full"
                     size="lg"
                     variant={pkg.color === "featured" ? "default" : "outline"}
                     asChild
                   >
                     <Link href="/contratar">
                       Contratar agora
-                      <ArrowRight className="size-5 ml-1" />
+                      <ArrowRight className="size-5" />
                     </Link>
                   </Button>
-                  <Button variant="outline" className="w-full text-sm" asChild>
+                  <Button variant="outline" className="w-full" asChild>
                     <Link href="#contato">
                       {pkg.cta}
-                      <ChevronRight className="size-4 ml-1" />
+                      <ChevronRight className="size-4" />
                     </Link>
                   </Button>
                 </CardFooter>
@@ -425,7 +420,7 @@ export default function HomePage() {
                 </div>
               ))}
 
-              <Button size="lg" className="gap-2 font-semibold shadow-lg w-full py-6 text-base mt-2" asChild>
+              <Button size="lg" className="w-full mt-2" asChild>
                 <Link href="#contato">
                   Contrate agora a Conviva Saúde!
                   <ArrowRight className="size-5" />
