@@ -261,7 +261,7 @@ export default function HomePage() {
       <section id="sobre" className="py-20 md:py-28">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-            <div>
+            <div className="min-w-0">
               <SectionLabel>Quem somos</SectionLabel>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight mb-5">
                 Um novo jeito para cuidar da saúde após os 60!
