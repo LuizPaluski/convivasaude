@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, MapPin, Phone, Calendar, Clock, ExternalLink, X, MailIcon } from "lucide-react"
 import ContactForm from "@/components/ContactForm"
+import Footer from "@/components/Footer"
 
 const unidades = [
   {
@@ -42,6 +43,14 @@ const unidades = [
     telefone: "(31) 2513-0552",
     maps: "https://maps.google.com/?q=R.+Mato+Grosso,+926+Betim+MG",
   },
+  {
+    nome: "Pronto Cuidar",
+    endereco: "Av. Brasil, 1477 – Funcionários, Belo Horizonte",
+    // TODO: confirmar horário exato com a equipe
+    horario: "Seg–Sex: 7h às 19h",
+    telefone: "(31) 2513-0552",
+    maps: "https://share.google/0nAOzfqoN7WoLNeHj",
+  },
 ]
 
 const howItWorks = [
@@ -76,26 +85,100 @@ export default function UnidadesPage() {
           </div>
         </section>
 
-        {/* ── Mapa / Cobertura ──────────────────────────────────────────── */}
+        {/* ── Parceria Mais60 ───────────────────────────────────────────── */}
         <section
-          className="py-4 md:py-6"
-          style={{ animation: "unFadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.1s" }}
+          className="py-16 md:py-24 relative overflow-hidden"
+          style={{
+            borderTop: "1px solid var(--border)",
+            background: "linear-gradient(135deg, color-mix(in oklch, var(--primary) 6%, var(--background)), color-mix(in oklch, var(--primary) 2%, var(--background)) 60%, var(--background))",
+            animation: "unFadeUp 0.6s ease forwards",
+            opacity: 0,
+            animationDelay: "0.1s",
+          }}
         >
-          <div className="mx-auto max-w-6xl px-6">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "var(--primary)" }}>
-              Área de cobertura
-            </p>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
-              Área de cobertura
-            </h2>
-            <p className="text-base leading-relaxed max-w-2xl" style={{ color: "var(--muted-foreground)" }}>
-              Atendemos Belo Horizonte e cidades num raio de até 50km — incluindo Contagem, Betim, Nova Lima, Santa Luzia, Ribeirão das Neves e região.
-            </p>
+          {/* Blob decorativo fundo */}
+          <div
+            className="absolute -top-24 -right-24 w-96 h-96 rounded-full pointer-events-none"
+            style={{
+              background: "radial-gradient(circle, color-mix(in oklch, var(--primary) 18%, transparent), transparent 70%)",
+              animation: "unFloat 8s ease-in-out infinite",
+            }}
+          />
+          <div
+            className="absolute bottom-0 -left-16 w-64 h-64 rounded-full pointer-events-none"
+            style={{
+              background: "radial-gradient(circle, color-mix(in oklch, var(--primary) 10%, transparent), transparent 70%)",
+              animation: "unFloat 11s ease-in-out infinite reverse",
+            }}
+          />
 
-            <div className="relative w-full rounded-2xl overflow-hidden h-64 md:h-80 bg-muted/50 mt-6">
-              <div className="absolute inset-0 flex items-center justify-center flex-col gap-2 text-muted-foreground">
-                <MapPin className="size-10 opacity-30" />
-                <p className="text-sm opacity-50">[ mapa de cobertura — BH e região até 50km ]</p>
+          <div className="mx-auto max-w-6xl px-6 relative z-10">
+            <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+
+              {/* Coluna de texto */}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "var(--primary)" }}>
+                  Nossa parceria
+                </p>
+                <h2 className="text-2xl md:text-3xl font-bold tracking-tight leading-snug mb-5">
+                  Nossos atendimentos acontecem nas clínicas da Mais60 Saúde
+                </h2>
+                <p className="text-base leading-relaxed mb-8" style={{ color: "var(--muted-foreground)" }}>
+                  O pacote de benefícios da Conviva Saúde opera em parceria com a Mais60 Saúde, referência nacional em cuidado geriátrico, com mais de 10 anos de experiência e unidades em Belo Horizonte e região. Quando você contrata a Conviva, seu familiar é atendido por uma equipe especializada em idosos, dentro de uma estrutura pensada inteiramente para ele.
+                </p>
+                <img
+                  src="https://mais60saude.com.br/wp-content/uploads/2023/07/logomais60.png"
+                  alt="Mais60 Saúde"
+                  className="h-12 w-auto object-contain"
+                />
+              </div>
+
+              {/* Coluna de imagem */}
+              <div className="relative" style={{ animation: "unFloat 7s ease-in-out infinite" }}>
+                {/* Placeholder imagem principal */}
+                <div
+                  className="relative w-full overflow-hidden"
+                  style={{
+                    aspectRatio: "4/3",
+                    borderRadius: "2.5rem 4rem 2rem 3.5rem",
+                    background: "linear-gradient(135deg, color-mix(in oklch, var(--primary) 30%, var(--muted)), color-mix(in oklch, var(--primary) 10%, var(--muted)) 60%, color-mix(in oklch, var(--primary) 20%, var(--muted)))",
+                  }}
+                >
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: "linear-gradient(225deg, color-mix(in oklch, var(--primary) 15%, transparent) 0%, transparent 50%, color-mix(in oklch, var(--primary) 8%, transparent) 100%)",
+                      animation: "unGradientShift 8s ease-in-out infinite",
+                    }}
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                    <div
+                      className="size-16 rounded-2xl flex items-center justify-center"
+                      style={{ background: "color-mix(in oklch, var(--primary) 18%, white)", boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}
+                    >
+                      <MapPin className="size-8" style={{ color: "var(--primary)" }} />
+                    </div>
+                    <p className="text-sm font-medium text-center px-8" style={{ color: "color-mix(in oklch, var(--foreground) 55%, transparent)" }}>
+                      Clínicas da Mais60 Saúde<br />em BH e região metropolitana
+                    </p>
+                  </div>
+                </div>
+
+                {/* Círculos decorativos flutuantes */}
+                <div
+                  className="absolute -bottom-5 -left-5 w-20 h-20 rounded-full"
+                  style={{
+                    background: "color-mix(in oklch, var(--primary) 18%, var(--muted))",
+                    animation: "unFloat 5s ease-in-out infinite reverse",
+                  }}
+                />
+                <div
+                  className="absolute -top-5 -right-5 w-12 h-12 rounded-full"
+                  style={{
+                    background: "color-mix(in oklch, var(--primary) 28%, var(--muted))",
+                    animation: "unFloat 9s ease-in-out infinite",
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -104,7 +187,7 @@ export default function UnidadesPage() {
         {/* ── Lista de unidades ─────────────────────────────────────────── */}
         <section
           className="py-16 md:py-20"
-          style={{ borderTop: "1px solid var(--border)", animation: "unFadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.2s", marginTop: "3rem" }}
+          style={{ borderTop: "1px solid var(--border)", animation: "unFadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.2s" }}
         >
           <div className="mx-auto max-w-6xl px-6">
             <div className="mb-10">
@@ -214,20 +297,17 @@ export default function UnidadesPage() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-4">
-              {howItWorks.map(({ icon: Icon, title, desc }, i) => (
+              {howItWorks.map(({ icon: Icon, title, desc }) => (
                 <div
                   key={title}
                   className="flex gap-4 p-5 rounded-2xl"
                   style={{ background: "var(--card)", border: "1px solid var(--border)" }}
                 >
-                  <div className="flex flex-col items-center gap-1 shrink-0">
-                    <div
-                      className="size-10 rounded-xl flex items-center justify-center"
-                      style={{ background: "color-mix(in oklch, var(--primary) 12%, var(--card))" }}
-                    >
-                      <Icon className="size-4" style={{ color: "var(--primary)" }} />
-                    </div>
-                    <span className="text-[10px] font-bold" style={{ color: "var(--primary)" }}>0{i + 1}</span>
+                  <div
+                    className="size-10 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ background: "color-mix(in oklch, var(--primary) 12%, var(--card))" }}
+                  >
+                    <Icon className="size-4" style={{ color: "var(--primary)" }} />
                   </div>
                   <div>
                     <p className="font-semibold text-sm mb-1">{title}</p>
@@ -284,14 +364,7 @@ export default function UnidadesPage() {
 
       </main>
 
-      {/* ── Footer ────────────────────────────────────────────────────────── */}
-      <footer style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-center">
-          <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>
-            © 2026 Conviva Saúde. Todos os direitos reservados.
-          </p>
-        </div>
-      </footer>
+      <Footer />
 
       {/* ── Modal de contato ──────────────────────────────────────────────── */}
       {showModal && (
@@ -336,6 +409,14 @@ export default function UnidadesPage() {
         @keyframes unFadeUp {
           from { opacity: 0; transform: translateY(24px); }
           to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes unFloat {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-12px); }
+        }
+        @keyframes unGradientShift {
+          0%, 100% { opacity: 0.6; }
+          50%       { opacity: 1; }
         }
       `}</style>
 

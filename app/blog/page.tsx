@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Clock, ImageIcon, Heart, Activity, Leaf, Shield, Users, Phone } from "lucide-react"
+import Footer from "@/components/Footer"
 
 const articles = [
   { category: "Saúde preventiva", title: "Como prevenir quedas em idosos: guia completo para familiares", read: "5 min" },
@@ -229,14 +230,7 @@ export default function BlogPage() {
 
       </main>
 
-      {/* ── Footer ────────────────────────────────────────────────────────── */}
-      <footer style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="mx-auto max-w-6xl px-6 py-6 flex items-center justify-center">
-          <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>
-            © 2026 Conviva Saúde. Todos os direitos reservados.
-          </p>
-        </div>
-      </footer>
+      <Footer />
 
       <style>{`
         @keyframes blFadeUp {
