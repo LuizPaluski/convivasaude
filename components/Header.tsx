@@ -69,7 +69,7 @@ export default function Header() {
               alt="Conviva Saúde"
               width={200}
               height={80}
-              style={{ height: "5rem", width: "auto" }}
+              className="h-10 md:h-20 w-auto"
               priority
             />
           </Link>
@@ -113,7 +113,7 @@ export default function Header() {
           {/* Mobile hamburger */}
           <button
             type="button"
-            className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+            className="md:hidden p-2.5 rounded-lg hover:bg-muted transition-colors"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
           >

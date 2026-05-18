@@ -268,7 +268,7 @@ export default function HomePage() {
             </div>
 
             {/* Foto sobre */}
-            <div className="relative rounded-2xl overflow-hidden h-80 md:h-96">
+            <div className="relative rounded-2xl overflow-hidden h-56 sm:h-72 md:h-96">
               <Image
                 src="/images/shutterstock_2641626359.jpg"
                 alt="Cuidado com idosos"
@@ -429,7 +429,7 @@ export default function HomePage() {
             </div>
 
             {/* Foto à direita */}
-            <div className="relative rounded-2xl overflow-hidden h-[480px] md:h-full min-h-[420px]">
+            <div className="relative rounded-2xl overflow-hidden h-56 sm:h-72 md:h-full md:min-h-[420px]">
               <Image
                 src="/images/20240520_141723.jpg"
                 alt="Equipe Conviva em atendimento"
@@ -503,7 +503,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative w-full rounded-2xl overflow-hidden h-56 md:h-72 mt-10">
+          <div className="relative w-full rounded-2xl overflow-hidden h-44 sm:h-56 md:h-72 mt-10">
             <Image
               src="/images/16.jpeg"
               alt="Clínica Mais60 Saúde"

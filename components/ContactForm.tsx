@@ -227,7 +227,7 @@ export default function ContactForm({
                   setNumeroCarteira("")
                   setQualConvenio("")
                 }}
-                className="rounded-xl py-2.5 px-3 text-xs font-medium text-left transition-all duration-150 active:scale-[0.97]"
+                className="rounded-xl py-3 px-3 text-xs font-medium text-left transition-all duration-150 active:scale-[0.97]"
                 style={{
                   border: `1.5px solid ${selected ? "var(--primary)" : "var(--border)"}`,
                   background: selected

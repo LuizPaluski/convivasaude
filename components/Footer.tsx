@@ -34,7 +34,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="size-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
+                  className="size-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
                 >
                   {icon}
                 </a>
@@ -83,22 +83,24 @@ export default function Footer() {
           <p className="text-xs text-muted-foreground">
             © 2026 Conviva Saúde. Todos os direitos reservados.
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 flex-wrap justify-center sm:justify-end">
             <Badge variant="outline" className="text-[10px] gap-1">
               <Shield className="size-3" /> Dados protegidos · LGPD
             </Badge>
-            <Link href="/styleguide" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Sistema de Design →
-            </Link>
-            <Link href="/brandguide" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Brand Guide →
-            </Link>
-            <Link href="/criativos" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Criativos →
-            </Link>
-            <Link href="/planosmidia" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Plano de Mídia →
-            </Link>
+            <div className="hidden sm:flex items-center gap-3">
+              <Link href="/styleguide" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                Sistema de Design →
+              </Link>
+              <Link href="/brandguide" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                Brand Guide →
+              </Link>
+              <Link href="/criativos" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                Criativos →
+              </Link>
+              <Link href="/planosmidia" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                Plano de Mídia →
+              </Link>
+            </div>
           </div>
         </div>
       </div>

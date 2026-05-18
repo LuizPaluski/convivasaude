@@ -257,7 +257,7 @@ export default function ContratarPage() {
                       key={t}
                       type="button"
                       onClick={() => handleTipoSelect(t)}
-                      className="flex flex-col items-center gap-4 p-7 rounded-2xl text-center cursor-pointer transition-all duration-200 relative"
+                      className="flex flex-col items-center gap-3 p-5 sm:p-7 rounded-2xl text-center cursor-pointer transition-all duration-200 relative"
                       style={{
                         border: `2px solid ${selected ? "var(--primary)" : "var(--border)"}`,
                         background: selected
@@ -293,7 +293,7 @@ export default function ContratarPage() {
                         </div>
                       )}
                       <div
-                        className="size-16 rounded-2xl flex items-center justify-center transition-colors duration-200"
+                        className="size-12 sm:size-16 rounded-2xl flex items-center justify-center transition-colors duration-200"
                         style={{
                           background: selected
                             ? "color-mix(in oklch, var(--primary) 18%, var(--card))"
@@ -301,7 +301,7 @@ export default function ContratarPage() {
                         }}
                       >
                         <Icon
-                          className="size-8 transition-colors duration-200"
+                          className="size-6 sm:size-8 transition-colors duration-200"
                           style={{ color: "var(--primary)" }}
                           strokeWidth={1.5}
                         />
