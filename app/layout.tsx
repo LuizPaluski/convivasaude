@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Urbanist, Plus_Jakarta_Sans, Nunito, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -38,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${urbanist.variable} ${plusJakartaSans.variable} ${nunito.variable} ${geistMono.variable}`}>
       <body className="antialiased">
+        <Header />
         {children}
       </body>
     </html>

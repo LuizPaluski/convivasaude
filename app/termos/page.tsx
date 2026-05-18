@@ -1,5 +1,3 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { FileText } from "lucide-react"
 
 const sections = [
@@ -60,39 +58,6 @@ const sections = [
 export default function TermosPage() {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--background)", color: "var(--foreground)" }}>
-
-      <header className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
-        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <Link href="/">
-            <img src="/logo.svg" alt="Conviva Saúde" className="h-20 w-auto" />
-          </Link>
-          <nav className="hidden md:flex items-center gap-1">
-            {[
-              ["Sobre nós", "/sobre"],
-              // ["Como funciona", "/como-funciona"],
-              ["Unidades", "/unidades"],
-              ["FAQ", "/faq"],
-              ["Blog", "/blog"],
-            ].map(([label, href]) => (
-              <Link
-                key={label}
-                href={href}
-                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors"
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-              <Link href="/">← Voltar ao site</Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/contratar">Contratar agora</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
 
       {/* Content */}
       <main className="flex-1">

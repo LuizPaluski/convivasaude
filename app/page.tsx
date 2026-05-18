@@ -13,8 +13,8 @@ import {
   Hospital,
   Cross,
   CreditCard,
-  MailIcon,
 } from "lucide-react"
+import ContactForm from "@/components/ContactForm"
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -118,46 +118,10 @@ const stats = [
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
-  const [convenio, setConvenio] = useState("")
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-
-      {/* ── Navbar ──────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
-        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <img src="/logo.svg" alt="Conviva Saúde" className="h-24 w-auto" />
-          </div>
-
-          <nav className="hidden md:flex items-center gap-1">
-            {[
-              ["Sobre", "#sobre"],
-              ["Pacote", "#planos"],
-              ["Depoimentos", "#depoimentos"],
-              ["Contato", "#contato"],
-            ].map(([label, href]) => (
-              <Link
-                key={label}
-                href={href}
-                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors"
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2">
-            <Button size="sm" variant="outline" asChild>
-              <Link href="/contratar">Contratar agora</Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="#contato">Falar com a equipe</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
 
       {/* ── Hero ────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden">
@@ -702,118 +666,11 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* CTA card */}
-            <div
-              className="rounded-2xl overflow-hidden"
-              style={{
-                background: "linear-gradient(145deg, color-mix(in oklch, var(--primary) 8%, var(--card)), color-mix(in oklch, var(--accent) 30%, var(--card)))",
-                border: "1px solid color-mix(in oklch, var(--primary) 20%, var(--border))",
-                boxShadow: "0 4px 32px color-mix(in oklch, var(--primary) 10%, transparent)",
-              }}
-            >
-              {/* Card header */}
-              <div className="px-6 pt-6 pb-5 border-b border-border/50">
-                <div className="flex items-center gap-3 mb-1">
-                  <div className="size-10 rounded-xl bg-primary/15 flex items-center justify-center shrink-0">
-                    <MailIcon className="size-5 text-primary" strokeWidth={1.5} />
-                  </div>
-                  <div>
-                    <p className="text-base font-semibold">Fale com nossa equipe</p>
-                    <p className="text-xs text-muted-foreground">Respondemos em até 2 horas úteis</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Form body */}
-              <div className="px-6 py-5 flex flex-col gap-4">
-                {/* Row: nome + whatsapp */}
-                <div className="grid sm:grid-cols-2 gap-3">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium text-foreground/70">Nome <span className="text-destructive">*</span></label>
-                    <input
-                      type="text"
-                      placeholder="Seu nome completo"
-                      required
-                      className="w-full rounded-xl border border-border bg-background/70 px-3.5 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/30 focus:border-primary/50 placeholder:text-muted-foreground/60"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium text-foreground/70">WhatsApp <span className="text-destructive">*</span></label>
-                    <input
-                      type="tel"
-                      placeholder="(31) 9 0000-0000"
-                      required
-                      className="w-full rounded-xl border border-border bg-background/70 px-3.5 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/30 focus:border-primary/50 placeholder:text-muted-foreground/60"
-                    />
-                  </div>
-                </div>
-
-                {/* E-mail */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-foreground/70">E-mail <span className="text-muted-foreground font-normal">(opcional)</span></label>
-                  <input
-                    type="email"
-                    placeholder="seu@email.com"
-                    className="w-full rounded-xl border border-border bg-background/70 px-3.5 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/30 focus:border-primary/50 placeholder:text-muted-foreground/60"
-                  />
-                </div>
-
-                {/* Convênio */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-foreground/70">Tem convênio de saúde? <span className="text-destructive">*</span></label>
-                  <div className="relative">
-                    <select
-                      value={convenio}
-                      onChange={(e) => setConvenio(e.target.value)}
-                      required
-                      className="w-full appearance-none rounded-xl border border-border bg-background/70 px-3.5 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/30 focus:border-primary/50 text-foreground pr-9"
-                    >
-                      <option value="">Selecione uma opção</option>
-                      <option value="sim">Sim, tenho convênio</option>
-                      <option value="nao">Não tenho convênio</option>
-                    </select>
-                    <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground rotate-90 pointer-events-none" />
-                  </div>
-                </div>
-
-                {/* Qual convênio — condicional */}
-                {convenio === "sim" && (
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium text-foreground/70">Qual convênio?</label>
-                    <input
-                      type="text"
-                      placeholder="Ex: Unimed, Hapvida…"
-                      className="w-full rounded-xl border border-border bg-background/70 px-3.5 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/30 focus:border-primary/50 placeholder:text-muted-foreground/60"
-                    />
-                  </div>
-                )}
-
-                {/* Mensagem */}
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-medium text-foreground/70">Mensagem <span className="text-muted-foreground font-normal">(opcional)</span></label>
-                  <textarea
-                    rows={3}
-                    placeholder="Conta um pouco sobre a situação do seu familiar…"
-                    className="w-full rounded-xl border border-border bg-background/70 px-3.5 py-2.5 text-sm outline-none transition-all focus:ring-2 focus:ring-primary/30 focus:border-primary/50 placeholder:text-muted-foreground/60 resize-none"
-                  />
-                </div>
-
-                {/* Submit */}
-                <button
-                  type="submit"
-                  className="w-full flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-semibold transition-all hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] mt-1"
-                  style={{ background: "var(--primary)", color: "var(--primary-foreground)", boxShadow: "0 4px 16px color-mix(in oklch, var(--primary) 30%, transparent)" }}
-                >
-                  Enviar mensagem
-                  <ArrowRight className="size-4" />
-                </button>
-
-                <p className="text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5">
-                  <Shield className="size-3 shrink-0" />
-                  Seus dados estão seguros. Não compartilhamos com terceiros.
-                </p>
-              </div>
-            </div>
+            <ContactForm
+              title="Fale com nossa equipe"
+              subtitle="Respondemos em até 2 horas úteis"
+              showCard={true}
+            />
           </div>
         </div>
       </section>

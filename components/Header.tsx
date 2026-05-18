@@ -1,0 +1,208 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { usePathname, useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Menu, X, MailIcon } from "lucide-react"
+import ContactForm from "@/components/ContactForm"
+
+const NAV_LINKS = [
+  { label: "A Conviva Saúde", href: "/sobre" },
+  { label: "Preço", href: "/#planos" },
+  { label: "Unidades", href: "/unidades" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contato", href: "/#contato" },
+] as const
+
+export default function Header() {
+  const pathname = usePathname()
+  const router = useRouter()
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [contactOpen, setContactOpen] = useState(false)
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 8)
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
+
+  // Checkout flow has its own minimal header
+  if (pathname.startsWith("/contratar")) return null
+
+  function handleAnchor(href: string) {
+    setMobileOpen(false)
+    const id = href.replace("/#", "")
+    if (pathname === "/") {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+    } else {
+      router.push(href)
+    }
+  }
+
+  function isActive(href: string): boolean {
+    if (href.startsWith("/#")) return false
+    return pathname === href
+  }
+
+  return (
+    <>
+      <header
+        className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80 transition-shadow duration-200"
+        style={scrolled ? { boxShadow: "0 2px 16px rgba(0,0,0,0.08)" } : undefined}
+      >
+        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+
+          {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0">
+            <Image
+              src="/logo.svg"
+              alt="Conviva Saúde"
+              width={200}
+              height={80}
+              style={{ height: "5rem", width: "auto" }}
+              priority
+            />
+          </Link>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            {NAV_LINKS.map(({ label, href }) =>
+              href.startsWith("/#") ? (
+                <button
+                  key={href}
+                  type="button"
+                  onClick={() => handleAnchor(href)}
+                  className="px-3 py-2 text-sm rounded-lg transition-colors hover:bg-muted"
+                  style={{ color: "var(--muted-foreground)" }}
+                >
+                  {label}
+                </button>
+              ) : (
+                <Link
+                  key={href}
+                  href={href}
+                  className="px-3 py-2 text-sm rounded-lg transition-colors hover:bg-muted"
+                  style={{ color: isActive(href) ? "var(--primary)" : "var(--muted-foreground)" }}
+                >
+                  {label}
+                </Link>
+              )
+            )}
+          </nav>
+
+          {/* Desktop CTAs */}
+          <div className="hidden md:flex items-center gap-2 shrink-0">
+            <Button size="sm" variant="outline" onClick={() => setContactOpen(true)}>
+              Falar com a equipe
+            </Button>
+            <Button size="sm" asChild>
+              <Link href="/contratar">Contratar agora</Link>
+            </Button>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
+          >
+            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
+
+        {/* Mobile dropdown menu */}
+        {mobileOpen && (
+          <div className="md:hidden border-t border-border bg-card">
+            <nav className="mx-auto max-w-6xl px-4 py-3 flex flex-col gap-0.5">
+              {NAV_LINKS.map(({ label, href }) =>
+                href.startsWith("/#") ? (
+                  <button
+                    key={href}
+                    type="button"
+                    onClick={() => handleAnchor(href)}
+                    className="w-full text-left px-3 py-2.5 text-sm rounded-lg hover:bg-muted transition-colors"
+                    style={{ color: "var(--muted-foreground)" }}
+                  >
+                    {label}
+                  </button>
+                ) : (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="px-3 py-2.5 text-sm rounded-lg hover:bg-muted transition-colors"
+                    style={{ color: isActive(href) ? "var(--primary)" : "var(--muted-foreground)" }}
+                  >
+                    {label}
+                  </Link>
+                )
+              )}
+              <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-border">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => { setMobileOpen(false); setContactOpen(true) }}
+                >
+                  Falar com a equipe
+                </Button>
+                <Button className="w-full" asChild>
+                  <Link href="/contratar">Contratar agora</Link>
+                </Button>
+              </div>
+            </nav>
+          </div>
+        )}
+      </header>
+
+      {/* Modal de contato do header */}
+      {contactOpen && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(4px)" }}
+          onClick={(e) => { if (e.target === e.currentTarget) setContactOpen(false) }}
+        >
+          <div
+            className="relative w-full max-w-lg rounded-2xl overflow-hidden"
+            style={{
+              background: "linear-gradient(145deg, color-mix(in oklch, var(--primary) 8%, var(--card)), color-mix(in oklch, var(--accent) 30%, var(--card)))",
+              border: "1px solid color-mix(in oklch, var(--primary) 20%, var(--border))",
+              boxShadow: "0 8px 48px rgba(0,0,0,0.2)",
+            }}
+          >
+            <div className="px-6 pt-6 pb-5 border-b border-border/50 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="size-10 rounded-xl bg-primary/15 flex items-center justify-center shrink-0">
+                  <MailIcon className="size-5 text-primary" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-base font-semibold">Fale com nossa equipe</p>
+                  <p className="text-xs text-muted-foreground">Respondemos em até 2 horas úteis</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setContactOpen(false)}
+                className="size-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+            <div className="px-6 py-5 max-h-[70vh] overflow-y-auto">
+              <ContactForm showCard={false} />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
