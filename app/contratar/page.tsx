@@ -25,11 +25,16 @@ const CONVENIOS_OPCOES = [
 ]
 const CONVENIOS_COM_CARTEIRA = new Set(["Unimed BH", "Unimed Nacional", "Desban", "Fundaffemg"])
 
+const MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
+const DIAS  = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, "0"))
+const ANO_ATUAL = new Date().getFullYear()
+const ANOS  = Array.from({ length: ANO_ATUAL - 1919 }, (_, i) => String(ANO_ATUAL - i))
+
 const BENEFICIOS = [
   "Médico de referência dedicado",
   "Enfermeiro de referência",
-  "Equipe multidisciplinar (10 especialidades)",
-  "Pronto Cuidar 24h (com coparticipação)",
+  "Equipe multidisciplinar",
+  "Pronto Cuidar (pronto atendimento para a pessoa idosa)",
   "Acompanhamento preventivo e contínuo",
   "Suporte à família por WhatsApp",
   "Sem carência · Sem fidelidade",
@@ -59,6 +64,9 @@ export default function ContratarPage() {
   const [whatsapp, setWhatsapp]       = useState("")
   const [faixaEtaria, setFaixaEtaria] = useState("")
   const [dataNasc, setDataNasc]       = useState("")
+  const [diaNasc, setDiaNasc]         = useState("")
+  const [mesNasc, setMesNasc]         = useState("")
+  const [anoNasc, setAnoNasc]         = useState("")
   const [convenio, setConvenio]       = useState("")
   const [numeroCarteira, setNumeroCarteira] = useState("")
   const [qualConvenio, setQualConvenio]     = useState("")
@@ -72,11 +80,20 @@ export default function ContratarPage() {
   const whatsappValido = whatsapp.replace(/\D/g, "").length >= 10
   const showCarteira      = CONVENIOS_COM_CARTEIRA.has(convenio)
   const showQualConvenio  = convenio === "Outros"
+  const dataNascValida    = diaNasc !== "" && mesNasc !== "" && anoNasc !== ""
 
   const canContinue =
     step === 1 ? nomeValido && whatsappValido :
-    step === 2 ? faixaEtaria !== "" && convenio !== "" :
+    step === 2 ? faixaEtaria !== "" && dataNascValida && convenio !== "" :
     true
+
+  useEffect(() => {
+    if (diaNasc || mesNasc || anoNasc) {
+      setDataNasc(`${diaNasc || "--"}/${mesNasc || "--"}/${anoNasc || "----"}`)
+    } else {
+      setDataNasc("")
+    }
+  }, [diaNasc, mesNasc, anoNasc]) // eslint-disable-line
 
   useEffect(() => {
     if (nomeValido && !showEmail) setShowEmail(true)
@@ -131,18 +148,18 @@ export default function ContratarPage() {
           <div className="h-16 flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
-              <img src="/logo.svg" alt="Conviva Saúde" className="h-10 w-auto" />
+              <img src="/logo.svg" alt="Conviva Saúde" className="h-12 w-auto" />
             </Link>
 
-            {/* Mobile: step count */}
-            <div className="sm:hidden text-right">
-              <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "var(--muted-foreground)" }}>
-                Passo {step + 1} de {STEP_LABELS.length}
-              </p>
-              <p className="text-xs font-bold" style={{ color: "var(--primary)" }}>
-                {STEP_LABELS[step]}
-              </p>
-            </div>
+            {/* Voltar ao site — visível em todos os tamanhos */}
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 text-sm font-medium rounded-xl px-3 py-2 transition-colors hover:bg-muted"
+              style={{ color: "var(--muted-foreground)" }}
+            >
+              <ChevronLeft className="size-4 shrink-0" />
+              <span>Voltar ao site</span>
+            </Link>
           </div>
         </div>
 
@@ -421,23 +438,61 @@ export default function ContratarPage() {
                   </div>
                 </div>
 
-                {/* Data de nascimento */}
+                {/* Data de nascimento — seletor customizado Dia | Mês | Ano */}
                 <div className="flex flex-col gap-1.5" style={{ animation: "cvWizardFade 0.3s ease both" }}>
                   <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
                     Data de nascimento{" "}
-                    <span className="normal-case font-normal tracking-normal" style={{ color: "var(--muted-foreground)", opacity: 0.6 }}>
-                      (opcional)
-                    </span>
+                    <span style={{ color: "var(--destructive)" }} className="normal-case tracking-normal font-normal">*</span>
                   </label>
-                  <input
-                    type="date"
-                    value={dataNasc}
-                    onChange={(e) => setDataNasc(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    onFocus={onFocusInput}
-                    onBlur={onBlurInput}
-                  />
+                  <div className="grid grid-cols-3 gap-2.5">
+                    {/* Dia */}
+                    <div className="relative">
+                      <select
+                        value={diaNasc}
+                        onChange={(e) => setDiaNasc(e.target.value)}
+                        className="w-full rounded-xl px-3 py-3.5 text-sm outline-none transition-all bg-background appearance-none pr-7 cursor-pointer"
+                        style={inputStyle}
+                        onFocus={onFocusInput}
+                        onBlur={onBlurInput}
+                      >
+                        <option value="">Dia</option>
+                        {DIAS.map((d) => <option key={d} value={d}>{d}</option>)}
+                      </select>
+                      <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none" style={{ color: "var(--muted-foreground)" }} />
+                    </div>
+
+                    {/* Mês */}
+                    <div className="relative">
+                      <select
+                        value={mesNasc}
+                        onChange={(e) => setMesNasc(e.target.value)}
+                        className="w-full rounded-xl px-3 py-3.5 text-sm outline-none transition-all bg-background appearance-none pr-7 cursor-pointer"
+                        style={inputStyle}
+                        onFocus={onFocusInput}
+                        onBlur={onBlurInput}
+                      >
+                        <option value="">Mês</option>
+                        {MESES.map((m) => <option key={m} value={m}>{m}</option>)}
+                      </select>
+                      <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none" style={{ color: "var(--muted-foreground)" }} />
+                    </div>
+
+                    {/* Ano */}
+                    <div className="relative">
+                      <select
+                        value={anoNasc}
+                        onChange={(e) => setAnoNasc(e.target.value)}
+                        className="w-full rounded-xl px-3 py-3.5 text-sm outline-none transition-all bg-background appearance-none pr-7 cursor-pointer"
+                        style={inputStyle}
+                        onFocus={onFocusInput}
+                        onBlur={onBlurInput}
+                      >
+                        <option value="">Ano</option>
+                        {ANOS.map((a) => <option key={a} value={a}>{a}</option>)}
+                      </select>
+                      <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none" style={{ color: "var(--muted-foreground)" }} />
+                    </div>
+                  </div>
                 </div>
 
                 {/* Convênio — select */}

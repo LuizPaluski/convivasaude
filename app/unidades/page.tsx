@@ -50,7 +50,7 @@ const unidades = [
     // TODO: confirmar horário exato com a equipe
     horario: "Seg–Sex: 7h às 19h",
     telefone: "(31) 2513-0552",
-    maps: "https://share.google/0nAOzfqoN7WoLNeHj",
+    maps: "https://maps.app.goo.gl/NHRkFKSvn1ji39MM7",
   },
 ]
 
@@ -251,30 +251,6 @@ export default function UnidadesPage() {
                 </div>
               ))}
 
-              {/* Card "Em breve" */}
-              <div
-                className="flex flex-col gap-3 p-5 rounded-2xl"
-                style={{
-                  background: "var(--muted)",
-                  border: "1.5px dashed var(--border)",
-                }}
-              >
-                <span
-                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold w-fit"
-                  style={{
-                    background: "color-mix(in oklch, var(--muted-foreground) 15%, var(--muted))",
-                    color: "var(--muted-foreground)",
-                  }}
-                >
-                  Em breve
-                </span>
-                <div className="flex items-start gap-2.5">
-                  <MapPin className="size-4 shrink-0 mt-0.5 opacity-40" style={{ color: "var(--muted-foreground)" }} />
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--muted-foreground)" }}>
-                    Nova unidade em expansão para atender ainda mais regiões da RMBH.
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </section>

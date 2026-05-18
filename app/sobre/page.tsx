@@ -108,7 +108,7 @@ export default function SobrePage() {
         {/* ── Preço destaque ────────────────────────────────────────────── */}
         <section
           className="py-20 md:py-28 relative overflow-hidden"
-          style={{ background: "var(--foreground)", color: "var(--background)", borderTop: "1px solid var(--border)" }}
+          style={{ background: "var(--primary)", color: "var(--background)", borderTop: "1px solid var(--border)" }}
         >
           {/* Ghost "329" decorativo */}
           <div
