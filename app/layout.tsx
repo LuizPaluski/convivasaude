@@ -27,8 +27,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Conviva Saúde — Sistema de Design",
-  description: "Guia de estilo para plataforma de cuidados e pacotes de saúde para idosos",
+  title: "Conviva Saúde | Pacote de cuidado para idosos em BH — R$ 329/mês",
+  description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
+  alternates: { canonical: "https://convivasaude.vercel.app" },
+  openGraph: {
+    title: "Conviva Saúde | Pacote de cuidado para idosos em BH — R$ 329/mês",
+    description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
+    url: "https://convivasaude.vercel.app",
+    siteName: "Conviva Saúde",
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Conviva Saúde | Pacote de cuidado para idosos em BH — R$ 329/mês",
+    description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
+  },
 };
 
 export default function RootLayout({

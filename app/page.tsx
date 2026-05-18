@@ -121,8 +121,30 @@ const stats = [
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": "Conviva Saúde",
+    "description": "Pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar.",
+    "url": "https://convivasaude.vercel.app",
+    "telephone": "+5531936182994",
+    "email": "contato@convivasaude.com.br",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Belo Horizonte",
+      "addressRegion": "MG",
+      "addressCountry": "BR"
+    },
+    "priceRange": "R$ 329/mês",
+    "areaServed": "Belo Horizonte e região metropolitana"
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* ── Hero ────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden">

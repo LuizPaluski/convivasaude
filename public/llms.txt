@@ -1,0 +1,19 @@
+# Conviva Saúde
+> Pacote de cuidado contínuo para idosos 60+ em Belo Horizonte e região metropolitana.
+
+A Conviva Saúde oferece um pacote particular de benefícios por R$ 329/mês, sem carência e sem fidelidade. Inclui médico de referência, enfermeiro de referência, equipe multidisciplinar com múltiplas especialidades, Pronto Cuidar (pronto atendimento para a pessoa idosa) e suporte à família por WhatsApp. Operado nas clínicas da Mais60 Saúde, referência em geriatria em Minas Gerais.
+
+Não é um plano de saúde. É um pacote complementar de cuidado contínuo voltado ao envelhecimento saudável.
+
+## Páginas principais
+- Home: https://convivasaude.vercel.app
+- Sobre: https://convivasaude.vercel.app/sobre
+- Unidades: https://convivasaude.vercel.app/unidades
+- FAQ: https://convivasaude.vercel.app/faq
+- Blog: https://convivasaude.vercel.app/blog
+- Contratar: https://convivasaude.vercel.app/contratar
+
+## Contato
+- Telefone/WhatsApp: (31) 93618-2994
+- E-mail: contato@convivasaude.com.br
+- Atendimento: Belo Horizonte e região metropolitana (BH)

@@ -1,4 +1,24 @@
+import type { Metadata } from "next"
 import { Shield } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Política de Privacidade | Conviva Saúde",
+  description: "Política de privacidade e proteção de dados da Conviva Saúde. Saiba como tratamos suas informações com segurança.",
+  alternates: { canonical: "https://convivasaude.vercel.app/privacidade" },
+  openGraph: {
+    title: "Política de Privacidade | Conviva Saúde",
+    description: "Política de privacidade e proteção de dados da Conviva Saúde. Saiba como tratamos suas informações com segurança.",
+    url: "https://convivasaude.vercel.app/privacidade",
+    siteName: "Conviva Saúde",
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Política de Privacidade | Conviva Saúde",
+    description: "Política de privacidade e proteção de dados da Conviva Saúde. Saiba como tratamos suas informações com segurança.",
+  },
+}
 
 const sections = [
   {

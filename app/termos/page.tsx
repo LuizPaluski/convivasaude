@@ -1,4 +1,24 @@
+import type { Metadata } from "next"
 import { FileText } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Termos de Uso | Conviva Saúde",
+  description: "Termos e condições de uso da Conviva Saúde.",
+  alternates: { canonical: "https://convivasaude.vercel.app/termos" },
+  openGraph: {
+    title: "Termos de Uso | Conviva Saúde",
+    description: "Termos e condições de uso da Conviva Saúde.",
+    url: "https://convivasaude.vercel.app/termos",
+    siteName: "Conviva Saúde",
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Termos de Uso | Conviva Saúde",
+    description: "Termos e condições de uso da Conviva Saúde.",
+  },
+}
 
 const sections = [
   {

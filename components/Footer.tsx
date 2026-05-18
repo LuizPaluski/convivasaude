@@ -67,7 +67,7 @@ export default function Footer() {
                 { label: "Central de ajuda", href: "/faq" },
                 { label: "Política de privacidade", href: "/privacidade" },
                 { label: "Termos de uso", href: "/termos" },
-                { label: "Contato", href: "#contato" },
+                { label: "Contato", href: "/#contato" },
               ].map(({ label, href }) => (
                 <li key={label}>
                   <Link href={href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
