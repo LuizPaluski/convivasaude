@@ -7,11 +7,6 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Heart, Shield, Activity, Users, CheckCircle, Phone, Info, MapPin, Star, X, MailIcon } from "lucide-react"
 import ContactForm from "@/components/ContactForm"
 
-const stats = [
-  { value: "R$ 329", label: "Mesmo valor para qualquer idade" },
-  { value: "10+", label: "Especialidades no pacote" },
-  { value: "24h", label: "Através do Pronto Cuidar e do Teleatendimento" },
-]
 
 const values = [
   { icon: Heart, title: "Humanidade", desc: "Tratamos cada pessoa como única, com respeito à sua história e individualidade." },
@@ -109,24 +104,85 @@ export default function SobrePage() {
           </div>
         </section>
 
-        {/* ── Números ───────────────────────────────────────────────────── */}
-        <section className="py-14 md:py-20" style={{ borderTop: "1px solid var(--border)", background: "var(--muted)" }}>
-          <div className="mx-auto max-w-6xl px-6">
-            <div className="grid grid-cols-3 gap-6 md:gap-8 max-w-2xl mx-auto">
-              {stats.map(({ value, label }) => (
-                <div key={label} className="text-center">
-                  <p
-                    className="text-3xl md:text-4xl font-bold leading-none mb-2"
-                    style={{ color: "var(--primary)" }}
-                  >
-                    {value}
-                  </p>
-                  <p className="text-xs leading-snug" style={{ color: "var(--muted-foreground)" }}>
-                    {label}
-                  </p>
-                </div>
-              ))}
+        {/* ── Preço destaque ────────────────────────────────────────────── */}
+        <section
+          className="py-20 md:py-28 relative overflow-hidden"
+          style={{ background: "var(--foreground)", color: "var(--background)", borderTop: "1px solid var(--border)" }}
+        >
+          {/* Ghost "329" decorativo */}
+          <div
+            className="absolute inset-0 flex items-center justify-center select-none pointer-events-none"
+            aria-hidden="true"
+          >
+            <span
+              className="font-black leading-none"
+              style={{
+                fontSize: "clamp(16rem, 55vw, 52rem)",
+                color: "color-mix(in oklch, var(--background) 4%, transparent)",
+                letterSpacing: "-0.05em",
+                lineHeight: 1,
+              }}
+            >
+              329
+            </span>
+          </div>
+
+          <div className="mx-auto max-w-3xl px-6 relative z-10 text-center">
+            <p
+              className="text-[10px] font-semibold uppercase tracking-[0.25em] mb-10"
+              style={{ color: "color-mix(in oklch, var(--background) 40%, transparent)" }}
+            >
+              Valor mensal · qualquer idade
+            </p>
+
+            {/* Preço tipográfico */}
+            <div className="flex items-start justify-center mb-10" style={{ lineHeight: 1 }}>
+              <span
+                className="text-2xl font-bold mt-3 mr-1"
+                style={{ color: "color-mix(in oklch, var(--background) 50%, transparent)" }}
+              >
+                R$
+              </span>
+              <span
+                className="font-black tracking-tighter"
+                style={{ fontSize: "clamp(6rem, 22vw, 14rem)", lineHeight: 0.88 }}
+              >
+                329
+              </span>
+              <span
+                className="text-xl font-medium self-end ml-1.5 mb-3"
+                style={{ color: "color-mix(in oklch, var(--background) 50%, transparent)" }}
+              >
+                /mês
+              </span>
             </div>
+
+            {/* Divisor */}
+            <div
+              className="w-10 h-px mx-auto mb-10"
+              style={{ background: "color-mix(in oklch, var(--background) 22%, transparent)" }}
+            />
+
+            {/* Copy emocional */}
+            <p className="text-lg md:text-xl font-semibold leading-snug mb-3">
+              Uma diária de UTI custa, em média, R$&nbsp;3.000.
+            </p>
+            <p
+              className="text-base md:text-lg leading-relaxed"
+              style={{ color: "color-mix(in oklch, var(--background) 62%, transparent)" }}
+            >
+              O cuidado que evita esse dia custa R$&nbsp;329 por mês.
+            </p>
+
+            {/* CTA */}
+            <Link
+              href="/contratar"
+              className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold mt-10 transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
+              style={{ background: "var(--background)", color: "var(--foreground)" }}
+            >
+              Ver planos e contratar
+              <ArrowRight className="size-4" />
+            </Link>
           </div>
         </section>
 

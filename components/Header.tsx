@@ -82,7 +82,7 @@ export default function Header() {
                   key={href}
                   type="button"
                   onClick={() => handleAnchor(href)}
-                  className="px-3 py-2 text-sm rounded-lg transition-colors hover:bg-muted"
+                  className="cursor-pointer px-3 py-2 text-sm rounded-lg transition-colors hover:bg-muted"
                   style={{ color: "var(--muted-foreground)" }}
                 >
                   {label}
@@ -91,7 +91,7 @@ export default function Header() {
                 <Link
                   key={href}
                   href={href}
-                  className="px-3 py-2 text-sm rounded-lg transition-colors hover:bg-muted"
+                  className="cursor-pointer px-3 py-2 text-sm rounded-lg transition-colors hover:bg-muted"
                   style={{ color: isActive(href) ? "var(--primary)" : "var(--muted-foreground)" }}
                 >
                   {label}
@@ -131,7 +131,7 @@ export default function Header() {
                     key={href}
                     type="button"
                     onClick={() => handleAnchor(href)}
-                    className="w-full text-left px-3 py-2.5 text-sm rounded-lg hover:bg-muted transition-colors"
+                    className="cursor-pointer w-full text-left px-3 py-2.5 text-sm rounded-lg hover:bg-muted transition-colors"
                     style={{ color: "var(--muted-foreground)" }}
                   >
                     {label}
@@ -140,7 +140,7 @@ export default function Header() {
                   <Link
                     key={href}
                     href={href}
-                    className="px-3 py-2.5 text-sm rounded-lg hover:bg-muted transition-colors"
+                    className="cursor-pointer px-3 py-2.5 text-sm rounded-lg hover:bg-muted transition-colors"
                     style={{ color: isActive(href) ? "var(--primary)" : "var(--muted-foreground)" }}
                   >
                     {label}
