@@ -1,10 +1,16 @@
 "use client"
 
-import { useState } from "react"
-import { Shield, ArrowRight, CheckCircle, Loader2, MailIcon } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Shield, ArrowRight, CheckCircle, Loader2, MailIcon, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { formatPhone, cleanPhone, isValidPhone } from "@/lib/formatPhone"
 
 const CONVENIOS = ["Unimed BH", "Unimed Nacional", "Desban", "Fundaffemg", "Particular", "Outros"] as const
+
+const MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
+const DIAS  = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, "0"))
+const ANO_ATUAL = new Date().getFullYear()
+const ANOS  = Array.from({ length: ANO_ATUAL - 1919 }, (_, i) => String(ANO_ATUAL - i))
 type Convenio = (typeof CONVENIOS)[number]
 
 interface ContactFormData {
@@ -24,16 +30,6 @@ interface ContactFormProps {
   onSubmit?: (data: ContactFormData) => void | Promise<void>
 }
 
-function formatPhone(raw: string): string {
-  const d = raw.replace(/\D/g, "").slice(0, 11)
-  if (!d) return ""
-  if (d.length <= 2) return `(${d}`
-  const ddd = d.slice(0, 2)
-  const num = d.slice(2)
-  if (num.length <= 1) return `(${ddd}) ${num}`
-  if (num.length <= 5) return `(${ddd}) ${num.slice(0, 1)} ${num.slice(1)}`
-  return `(${ddd}) ${num.slice(0, 1)} ${num.slice(1, 5)}-${num.slice(5)}`
-}
 
 export default function ContactForm({
   title = "Fale com nossa equipe",
@@ -43,7 +39,11 @@ export default function ContactForm({
 }: ContactFormProps) {
   const [nome, setNome] = useState("")
   const [telefone, setTelefone] = useState("")
+  const [phoneFocused, setPhoneFocused] = useState(false)
   const [dataNascimento, setDataNascimento] = useState("")
+  const [diaNasc, setDiaNasc]               = useState("")
+  const [mesNasc, setMesNasc]               = useState("")
+  const [anoNasc, setAnoNasc]               = useState("")
   const [email, setEmail] = useState("")
   const [convenio, setConvenio] = useState<Convenio | "">("")
   const [numeroCarteira, setNumeroCarteira] = useState("")
@@ -51,13 +51,21 @@ export default function ContactForm({
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
+  useEffect(() => {
+    if (diaNasc || mesNasc || anoNasc) {
+      setDataNascimento(`${diaNasc || "--"}/${mesNasc || "--"}/${anoNasc || "----"}`)
+    } else {
+      setDataNascimento("")
+    }
+  }, [diaNasc, mesNasc, anoNasc]) // eslint-disable-line
+
   const showCarteira =
     convenio === "Unimed BH" ||
     convenio === "Unimed Nacional" ||
     convenio === "Desban" ||
     convenio === "Fundaffemg"
   const showQualConvenio = convenio === "Outros"
-  const canSubmit = nome.trim() !== "" && telefone.replace(/\D/g, "").length >= 10 && convenio !== ""
+  const canSubmit = nome.trim() !== "" && isValidPhone(telefone) && convenio !== ""
 
   async function handleSubmit() {
     if (!canSubmit || loading) return
@@ -110,32 +118,82 @@ export default function ContactForm({
         />
       </div>
 
-      {/* 2. Telefone de contato */}
+      {/* 2. Número de telefone / WhatsApp */}
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-medium text-foreground/70">
-          Telefone de contato <span className="text-destructive">*</span>
+          Número de telefone / WhatsApp <span className="text-destructive">*</span>
         </label>
-        <input
-          type="tel"
-          placeholder="(31) 9 0000-0000"
-          value={telefone}
-          onChange={(e) => setTelefone(formatPhone(e.target.value))}
-          className={inputCls}
-        />
+        <div
+          className="flex items-stretch rounded-xl overflow-hidden transition-all bg-background/70"
+          style={{
+            border: `1.5px solid ${phoneFocused ? "var(--primary)" : "var(--border)"}`,
+            boxShadow: phoneFocused ? "0 0 0 3px color-mix(in oklch, var(--primary) 15%, transparent)" : "",
+          }}
+        >
+          <span
+            className="flex items-center gap-1.5 px-3 text-sm font-medium select-none shrink-0"
+            style={{ borderRight: "1.5px solid var(--border)", color: "var(--muted-foreground)" }}
+          >
+            🇧🇷 +55
+          </span>
+          <input
+            type="tel"
+            value={formatPhone(telefone)}
+            onChange={(e) => setTelefone(cleanPhone(e.target.value))}
+            placeholder="(31) 90000-0000"
+            className="flex-1 px-3 py-2.5 text-sm outline-none bg-transparent placeholder:text-muted-foreground/60"
+            onFocus={() => setPhoneFocused(true)}
+            onBlur={() => setPhoneFocused(false)}
+          />
+        </div>
       </div>
 
-      {/* 3. Data de nascimento */}
+      {/* 3. Data de nascimento — seletor Dia | Mês | Ano */}
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-medium text-foreground/70">
           Data de nascimento{" "}
           <span className="text-muted-foreground font-normal">(opcional)</span>
         </label>
-        <input
-          type="date"
-          value={dataNascimento}
-          onChange={(e) => setDataNascimento(e.target.value)}
-          className={inputCls}
-        />
+        <div className="grid grid-cols-3 gap-2">
+          {/* Dia */}
+          <div className="relative">
+            <select
+              value={diaNasc}
+              onChange={(e) => setDiaNasc(e.target.value)}
+              className="w-full rounded-xl border border-border bg-background/70 px-3 py-2.5 text-sm outline-none transition-all appearance-none pr-7 cursor-pointer focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+            >
+              <option value="">Dia</option>
+              {DIAS.map((d) => <option key={d} value={d}>{d}</option>)}
+            </select>
+            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none text-muted-foreground" />
+          </div>
+
+          {/* Mês */}
+          <div className="relative">
+            <select
+              value={mesNasc}
+              onChange={(e) => setMesNasc(e.target.value)}
+              className="w-full rounded-xl border border-border bg-background/70 px-3 py-2.5 text-sm outline-none transition-all appearance-none pr-7 cursor-pointer focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+            >
+              <option value="">Mês</option>
+              {MESES.map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
+            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none text-muted-foreground" />
+          </div>
+
+          {/* Ano */}
+          <div className="relative">
+            <select
+              value={anoNasc}
+              onChange={(e) => setAnoNasc(e.target.value)}
+              className="w-full rounded-xl border border-border bg-background/70 px-3 py-2.5 text-sm outline-none transition-all appearance-none pr-7 cursor-pointer focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+            >
+              <option value="">Ano</option>
+              {ANOS.map((a) => <option key={a} value={a}>{a}</option>)}
+            </select>
+            <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none text-muted-foreground" />
+          </div>
+        </div>
       </div>
 
       {/* 4. E-mail */}

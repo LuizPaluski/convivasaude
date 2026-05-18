@@ -7,6 +7,7 @@ import {
   Heart, Shield, Phone,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { formatPhone, cleanPhone, isValidPhone } from "@/lib/formatPhone"
 
 const STEP_LABELS = ["Início", "Sobre você", "Beneficiário", "Pacote", "Conclusão"]
 
@@ -72,12 +73,13 @@ export default function ContratarPage() {
   const [qualConvenio, setQualConvenio]     = useState("")
 
   // Progressive field visibility (step 1)
-  const [showEmail, setShowEmail]     = useState(false)
+  const [showEmail, setShowEmail]       = useState(false)
   const [showWhatsapp, setShowWhatsapp] = useState(false)
+  const [phoneFocused, setPhoneFocused] = useState(false)
 
   // Derived
   const nomeValido     = nome.trim().split(/\s+/).filter(Boolean).length >= 2
-  const whatsappValido = whatsapp.replace(/\D/g, "").length >= 10
+  const whatsappValido = isValidPhone(whatsapp)
   const showCarteira      = CONVENIOS_COM_CARTEIRA.has(convenio)
   const showQualConvenio  = convenio === "Outros"
   const dataNascValida    = diaNasc !== "" && mesNasc !== "" && anoNasc !== ""
@@ -371,27 +373,41 @@ export default function ContratarPage() {
                   </div>
                 )}
 
-                {/* WhatsApp — progressive */}
+                {/* Número de telefone / WhatsApp — progressive */}
                 {showWhatsapp && (
                   <div className="flex flex-col gap-1.5" style={{ animation: "cvWizardFade 0.35s ease both" }}>
                     <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
-                      WhatsApp{" "}
+                      Número de telefone / WhatsApp{" "}
                       <span style={{ color: "var(--destructive)" }} className="normal-case tracking-normal font-normal">*</span>
                     </label>
-                    <div className="relative">
-                      <input
-                        type="tel"
-                        value={whatsapp}
-                        onChange={(e) => setWhatsapp(e.target.value)}
-                        placeholder="(31) 9 0000-0000"
-                        className={`${inputCls} pr-10`}
-                        style={inputStyle}
-                        onFocus={onFocusInput}
-                        onBlur={onBlurInput}
-                      />
-                      {whatsappValido && (
-                        <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 size-4" style={{ color: "var(--success)" }} />
-                      )}
+                    <div
+                      className="flex items-stretch rounded-xl overflow-hidden transition-all"
+                      style={{
+                        border: `1.5px solid ${phoneFocused ? "var(--primary)" : "var(--border)"}`,
+                        boxShadow: phoneFocused ? "0 0 0 3px color-mix(in oklch, var(--primary) 15%, transparent)" : "",
+                        background: "var(--background)",
+                      }}
+                    >
+                      <span
+                        className="flex items-center gap-1.5 px-3 text-sm font-medium select-none shrink-0"
+                        style={{ borderRight: "1.5px solid var(--border)", color: "var(--muted-foreground)" }}
+                      >
+                        🇧🇷 +55
+                      </span>
+                      <div className="relative flex-1">
+                        <input
+                          type="tel"
+                          value={formatPhone(whatsapp)}
+                          onChange={(e) => setWhatsapp(cleanPhone(e.target.value))}
+                          placeholder="(31) 90000-0000"
+                          className="w-full px-4 py-3.5 text-sm outline-none bg-transparent pr-10"
+                          onFocus={() => setPhoneFocused(true)}
+                          onBlur={() => setPhoneFocused(false)}
+                        />
+                        {whatsappValido && (
+                          <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 size-4" style={{ color: "var(--success)" }} />
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -651,7 +667,7 @@ export default function ContratarPage() {
                 <div className="flex flex-col gap-2.5">
                   {[
                     { label: "Nome",           value: nome },
-                    { label: "WhatsApp",        value: whatsapp },
+                    { label: "WhatsApp",        value: formatPhone(whatsapp) },
                     ...(email         ? [{ label: "E-mail",         value: email }]         : []),
                     ...(faixaEtaria   ? [{ label: "Faixa etária",   value: faixaEtaria }]   : []),
                     ...(dataNasc      ? [{ label: "Data de nasc.",   value: dataNasc }]      : []),
