@@ -39,8 +39,8 @@ export const BLOG_POSTS: BlogPost[] = [
     readTime: "5 min",
     publishedAt: "15 de janeiro de 2026",
     published: true,
-    image: "https://images.unsplash.com/photo-1576765608866-5b51046452be?w=1200&q=80",
-    imageAlt: "Profissional de saúde cuidando de paciente idoso",
+    image: "https://plus.unsplash.com/premium_photo-1726869768276-dfda8de22814?w=1200&q=80",
+    imageAlt: "Idosa caída no chão após queda em casa",
     content: [
       {
         type: "p",

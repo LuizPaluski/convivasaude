@@ -328,3 +328,42 @@
 .cv-btn:not(:disabled):hover svg:last-child:not(:only-child) {
   transform: translateX(3px);
 }
+
+/* ── Mobile carousel ─────────────────────────────────────────────────────── */
+.carousel-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 4px;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-slide {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 82vw;
+}
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+.carousel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: var(--border);
+  transition: width 0.25s ease, background 0.25s ease;
+}
+.carousel-dot-active {
+  width: 20px;
+  background: var(--primary);
+}

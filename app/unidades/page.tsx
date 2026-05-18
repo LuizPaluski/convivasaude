@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, MapPin, Phone, Calendar, Clock, ExternalLink, X, MailIcon } from "lucide-react"
 import ContactForm from "@/components/ContactForm"
 import Footer from "@/components/Footer"
+import MobileCarousel from "@/components/MobileCarousel"
 
 const unidades = [
   {
@@ -203,8 +204,7 @@ export default function UnidadesPage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              {/* Cards de unidades reais */}
+            <MobileCarousel desktopClass="md:grid md:grid-cols-2 md:gap-4">
               {unidades.map(({ nome, endereco, horario, telefone, maps }) => (
                 <div
                   key={nome}
@@ -250,8 +250,7 @@ export default function UnidadesPage() {
                   </a>
                 </div>
               ))}
-
-            </div>
+            </MobileCarousel>
           </div>
         </section>
 

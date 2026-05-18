@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Heart, Shield, Activity, Users, CheckCircle, Phone, Info, MapPin, Star, X, MailIcon } from "lucide-react"
 import ContactForm from "@/components/ContactForm"
 import Footer from "@/components/Footer"
+import MobileCarousel from "@/components/MobileCarousel"
 
 
 const values = [
@@ -202,7 +203,7 @@ export default function SobrePage() {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+            <MobileCarousel desktopClass="md:grid md:grid-cols-2 md:gap-4" mobileWrapClass="max-w-3xl mx-auto">
               {values.map(({ icon: Icon, title, desc }, i) => (
                 <div
                   key={title}
@@ -221,7 +222,7 @@ export default function SobrePage() {
                   </div>
                 </div>
               ))}
-            </div>
+            </MobileCarousel>
           </div>
         </section>
 
@@ -255,29 +256,31 @@ export default function SobrePage() {
             </div>
 
             {/* Cards diferenciais Mais60 */}
-            <div className="grid md:grid-cols-3 gap-4 mb-10">
-              {[
-                { icon: MapPin, title: "5 unidades em BH", desc: "Barro Preto, Santo Agostinho, Santa Efigênia, Pampulha e uma unidade exclusiva do Pronto Cuidar." },
-                { icon: Star, title: "Referência em geriatria", desc: "Mais de 10 anos cuidando de idosos com foco em reabilitação, prevenção e qualidade de vida." },
-                { icon: Users, title: "Equipe multidisciplinar completa", desc: "Especialistas que trabalham de forma coordenada pelo seu bem-estar ou do seu familiar." },
-              ].map(({ icon: Icon, title, desc }) => (
-                <div
-                  key={title}
-                  className="flex flex-col gap-3 p-5 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-                  style={{ background: "var(--card)", border: "1px solid var(--border)" }}
-                >
+            <div className="mb-10">
+              <MobileCarousel desktopClass="md:grid md:grid-cols-3 md:gap-4">
+                {[
+                  { icon: MapPin, title: "5 unidades em BH", desc: "Barro Preto, Santo Agostinho, Santa Efigênia, Pampulha e uma unidade exclusiva do Pronto Cuidar." },
+                  { icon: Star, title: "Referência em geriatria", desc: "Mais de 10 anos cuidando de idosos com foco em reabilitação, prevenção e qualidade de vida." },
+                  { icon: Users, title: "Equipe multidisciplinar completa", desc: "Especialistas que trabalham de forma coordenada pelo seu bem-estar ou do seu familiar." },
+                ].map(({ icon: Icon, title, desc }) => (
                   <div
-                    className="size-9 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: "color-mix(in oklch, var(--primary) 12%, var(--card))" }}
+                    key={title}
+                    className="flex flex-col gap-3 p-5 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                    style={{ background: "var(--card)", border: "1px solid var(--border)" }}
                   >
-                    <Icon className="size-4" style={{ color: "var(--primary)" }} />
+                    <div
+                      className="size-9 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ background: "color-mix(in oklch, var(--primary) 12%, var(--card))" }}
+                    >
+                      <Icon className="size-4" style={{ color: "var(--primary)" }} />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm mb-1">{title}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: "var(--muted-foreground)" }}>{desc}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-sm mb-1">{title}</p>
-                    <p className="text-sm leading-relaxed" style={{ color: "var(--muted-foreground)" }}>{desc}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </MobileCarousel>
             </div>
 
             <div className="text-center">

@@ -16,6 +16,7 @@ import {
 } from "lucide-react"
 import ContactForm from "@/components/ContactForm"
 import Footer from "@/components/Footer"
+import MobileCarousel from "@/components/MobileCarousel"
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -245,14 +246,14 @@ export default function HomePage() {
       {/* ── Stats bar ───────────────────────────────────────────────────── */}
       <section className="border-y border-border bg-card">
         <div className="mx-auto max-w-6xl px-6 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x divide-border">
+          <MobileCarousel desktopClass="md:grid md:grid-cols-4 md:gap-0 md:divide-x md:divide-border">
             {stats.map(({ value, label }) => (
-              <div key={label} className="flex flex-col items-center text-center px-4">
+              <div key={label} className="flex flex-col items-center text-center px-4 py-2">
                 <p className="text-base font-bold text-primary leading-snug">{value}</p>
                 <p className="text-xs text-muted-foreground mt-1 leading-snug">{label}</p>
               </div>
             ))}
-          </div>
+          </MobileCarousel>
         </div>
       </section>
 
@@ -271,7 +272,7 @@ export default function HomePage() {
               <p className="text-muted-foreground leading-relaxed mb-8">
                 Em vez de atendimentos pontuais, você passa a contar com uma estrutura organizada de cuidado, com profissionais que acompanham sua saúde ao longo do tempo. Tudo de forma simples com previsibilidade e foco na sua qualidade de vida!
               </p>
-              <div className="grid grid-cols-2 gap-4">
+              <MobileCarousel desktopClass="md:grid md:grid-cols-2 md:gap-4">
                 {[
                   { icon: Cross, title: "Médico de referência", desc: "Um médico que te conhece e acompanha sua saúde de forma contínua e preventiva." },
                   { icon: Users, title: "Equipe multidisciplinar", desc: "Nutricionista, fisioterapeuta e outros profissionais que atuam de forma integrada no seu cuidado." },
@@ -286,7 +287,7 @@ export default function HomePage() {
                     <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
                   </div>
                 ))}
-              </div>
+              </MobileCarousel>
             </div>
 
             {/* Foto sobre */}
@@ -315,20 +316,19 @@ export default function HomePage() {
             Fale com nossa equipe e entenda como a Conviva Saúde organiza o cuidado no dia a dia.<br />
             Tenha acesso a acompanhamento médico, equipe multidisciplinar especializada e um pacote de cuidados que cabe no bolso.
           </p>
-          <Button size="lg" variant="inverted" asChild>
-            <Link href="#contato">
-              Quero saber mais sobre a Conviva Saúde
-              <ArrowRight className="size-5" />
-            </Link>
-          </Button>
-          <div className="mt-4">
-            <Link
-              href="/contratar"
-              className="text-sm font-medium transition-opacity hover:opacity-80 underline underline-offset-4"
-              style={{ color: "color-mix(in oklch, var(--primary-foreground) 80%, transparent)" }}
-            >
-              Quero contratar a Conviva Saúde →
-            </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Button size="lg" variant="inverted" className="w-full sm:w-auto" asChild>
+              <Link href="#contato">
+                Quero saber mais sobre a Conviva Saúde
+                <ArrowRight className="size-5" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline-inverted" className="w-full sm:w-auto" asChild>
+              <Link href="/contratar">
+                Quero contratar a Conviva Saúde
+                <ArrowRight className="size-5" />
+              </Link>
+            </Button>
           </div>
           <p className="mt-4 text-xs" style={{ color: "color-mix(in oklch, var(--primary-foreground) 60%, transparent)" }}>
             Atendimento rápido · Sem fidelidade · Cancelamento simples
@@ -491,7 +491,7 @@ export default function HomePage() {
             </div>
 
             {/* Right column — 4 cards */}
-            <div className="grid grid-cols-2 gap-4">
+            <MobileCarousel desktopClass="md:grid md:grid-cols-2 md:gap-4">
               {[
                 {
                   icon: MapPin,
@@ -522,7 +522,7 @@ export default function HomePage() {
                   <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
                 </div>
               ))}
-            </div>
+            </MobileCarousel>
           </div>
 
           <div className="relative w-full rounded-2xl overflow-hidden h-44 sm:h-56 md:h-72 mt-10">
@@ -549,7 +549,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <MobileCarousel desktopClass="md:grid md:grid-cols-2 md:gap-5 lg:grid-cols-4">
             {testimonials.map(({ quote, author, role, initials, stars }, i) => (
               <Card key={author} className="flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-lg" style={{ animation: "cvFadeUp 0.5s ease both", animationDelay: `${i * 80}ms` }}>
                 <CardContent className="pt-6 flex flex-col gap-4 flex-1">
@@ -576,7 +576,7 @@ export default function HomePage() {
                 </CardContent>
               </Card>
             ))}
-          </div>
+          </MobileCarousel>
         </div>
       </section>
 

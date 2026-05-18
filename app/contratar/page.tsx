@@ -246,7 +246,7 @@ export default function ContratarPage() {
                 Isso nos ajuda a personalizar o processo para você.
               </p>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {([
                   { t: "mim"      as const, icon: User,  title: "Para mim",        desc: "Quero contratar para mim mesmo" },
                   { t: "familiar" as const, icon: Users, title: "Para um familiar", desc: "Sou responsável ou familiar do beneficiário" },
