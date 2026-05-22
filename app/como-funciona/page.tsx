@@ -18,7 +18,7 @@ const steps = [
   {
     icon: CheckSquare,
     title: "Escolha o pacote",
-    text: "Apresentamos o Conviva Essencial — R$ 329/mês, o mesmo valor para qualquer idade. Sem letras miúdas, sem surpresas. Você decide na hora que quiser.",
+    text: "Apresentamos o Conviva Essencial, R$ 329/mês, o mesmo valor para qualquer idade. Sem letras miúdas, sem surpresas. Você decide na hora que quiser.",
   },
   {
     icon: Calendar,
@@ -28,7 +28,7 @@ const steps = [
   {
     icon: Heart,
     title: "Cuidado coordenado começa",
-    text: "Seu familiar passa a ter um médico e um enfermeiro de referência dedicados. Consultas, exames, medicações e Pronto Cuidar 24h — tudo coordenado por uma equipe que o conhece de verdade.",
+    text: "Seu familiar passa a ter um médico e um enfermeiro de referência dedicados. Consultas, exames, medicações e Pronto Cuidar 24h, tudo coordenado por uma equipe que o conhece de verdade.",
   },
   {
     icon: Bell,
@@ -38,7 +38,7 @@ const steps = [
 ]
 
 const benefits = [
-  { icon: UserCheck, title: "Médico de referência", desc: "Um médico que acompanha seu familiar continuamente — não só quando está doente." },
+  { icon: UserCheck, title: "Médico de referência", desc: "Um médico que acompanha seu familiar continuamente, não só quando está doente." },
   { icon: Heart, title: "Enfermeiro de referência", desc: "Ponto de contato dedicado que coordena toda a jornada de cuidado." },
   { icon: Users, title: "Equipe multidisciplinar", desc: "10 especialidades: fisioterapeuta, psicólogo, nutricionista, fonoaudiólogo e mais." },
   { icon: Phone, title: "Pronto Cuidar 24h", desc: "Pronto atendimento exclusivo para idosos, disponível a qualquer hora. Com coparticipação." },
@@ -61,7 +61,7 @@ const faqs = [
   },
   {
     q: "A Conviva é um plano de saúde?",
-    a: "Não. A Conviva Saúde é um pacote particular de benefícios voltado ao envelhecimento saudável. Não somos regulados pela ANS e não substituímos um plano de saúde convencional — mas oferecemos um cuidado muito mais próximo, especializado e acessível para quem tem 60 anos ou mais.",
+    a: "Não. A Conviva Saúde é um pacote particular de benefícios voltado ao envelhecimento saudável. Não somos regulados pela ANS e não substituímos um plano de saúde convencional, mas oferecemos um cuidado muito mais próximo, especializado e acessível para quem tem 60 anos ou mais.",
   },
 ]
 
@@ -75,15 +75,15 @@ export default function ComoFuncionaPage() {
 
         {/* ── Hero ──────────────────────────────────────────────────────── */}
         <section
-          className="py-16 md:py-24"
-          style={{ animation: "cfFadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0s" }}
+          className="py-20 md:py-28"
+          style={{ animation: "fadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0s" }}
         >
           <div className="mx-auto max-w-4xl px-6">
             <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "var(--primary)" }}>
               Como funciona
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.15] mb-6 max-w-3xl">
-              Do primeiro contato ao cuidado coordenado — sem complicação
+              Do primeiro contato ao cuidado coordenado, sem complicação
             </h1>
             <p className="text-lg md:text-xl leading-relaxed max-w-2xl" style={{ color: "var(--muted-foreground)" }}>
               Entenda como funciona o pacote Conviva e como seu familiar começa a ser cuidado em poucos dias.
@@ -102,7 +102,7 @@ export default function ComoFuncionaPage() {
                 <span className="font-semibold" style={{ color: "var(--primary)" }}>
                   A Conviva Saúde não é um plano de saúde.
                 </span>{" "}
-                Somos um pacote particular de benefícios — sem ANS, sem carência, sem reajuste por faixa etária. R$ 329/mês para qualquer idade.
+                Somos um pacote particular de benefícios, sem ANS, sem carência, sem reajuste por faixa etária. R$ 329/mês para qualquer idade.
               </p>
             </div>
           </div>
@@ -110,14 +110,14 @@ export default function ComoFuncionaPage() {
 
         {/* ── Timeline ──────────────────────────────────────────────────── */}
         <section
-          className="py-16 md:py-20"
-          style={{ borderTop: "1px solid var(--border)", animation: "cfFadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.15s" }}
+          className="py-20 md:py-28"
+          style={{ borderTop: "1px solid var(--border)", animation: "fadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.15s" }}
         >
           <div className="mx-auto max-w-4xl px-6">
             <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "var(--primary)" }}>
               O fluxo completo
             </p>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12">
               Como o cuidado começa
             </h2>
 
@@ -163,19 +163,19 @@ export default function ComoFuncionaPage() {
 
         {/* ── O que está incluído ───────────────────────────────────────── */}
         <section
-          className="py-16 md:py-20"
-          style={{ borderTop: "1px solid var(--border)", background: "var(--muted)", animation: "cfFadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.25s" }}
+          className="py-20 md:py-28"
+          style={{ borderTop: "1px solid var(--border)", background: "var(--muted)", animation: "fadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.25s" }}
         >
           <div className="mx-auto max-w-4xl px-6">
             <div className="text-center mb-10">
               <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "var(--primary)" }}>
                 O que está incluído
               </p>
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
                 Tudo no mesmo pacote
               </h2>
               <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
-                R$ 329/mês — sem reajuste por idade, sem carência, sem fidelidade
+                R$ 329/mês, sem reajuste por idade, sem carência, sem fidelidade
               </p>
             </div>
 
@@ -204,14 +204,14 @@ export default function ComoFuncionaPage() {
 
         {/* ── FAQ ───────────────────────────────────────────────────────── */}
         <section
-          className="py-16 md:py-20"
-          style={{ borderTop: "1px solid var(--border)", animation: "cfFadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.35s" }}
+          className="py-20 md:py-28"
+          style={{ borderTop: "1px solid var(--border)", animation: "fadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.35s" }}
         >
           <div className="mx-auto max-w-2xl px-6">
             <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "var(--primary)" }}>
               Dúvidas comuns
             </p>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-10">
               Perguntas frequentes
             </h2>
 
@@ -240,7 +240,7 @@ export default function ComoFuncionaPage() {
                     {isOpen && (
                       <p
                         className="text-sm leading-relaxed pb-5"
-                        style={{ color: "var(--muted-foreground)", animation: "cfFadeUp 0.2s ease both" }}
+                        style={{ color: "var(--muted-foreground)", animation: "fadeUp 0.2s ease both" }}
                       >
                         {a}
                       </p>
@@ -255,7 +255,7 @@ export default function ComoFuncionaPage() {
         {/* ── Foto grande ───────────────────────────────────────────────── */}
         <div
           className="mx-auto max-w-6xl px-6"
-          style={{ animation: "cfFadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.45s" }}
+          style={{ animation: "fadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.45s" }}
         >
           <div className="relative w-full rounded-2xl overflow-hidden h-64 md:h-80 bg-muted/50 my-16">
             <div className="absolute inset-0 flex items-center justify-center flex-col gap-2 text-muted-foreground">
@@ -267,8 +267,8 @@ export default function ComoFuncionaPage() {
 
         {/* ── CTA final ─────────────────────────────────────────────────── */}
         <section
-          className="py-16 md:py-20"
-          style={{ background: "var(--primary)", animation: "cfFadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.5s" }}
+          className="py-20 md:py-28"
+          style={{ background: "var(--primary)", animation: "fadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.5s" }}
         >
           <div className="mx-auto max-w-2xl px-6 text-center">
             <h2
@@ -318,14 +318,6 @@ export default function ComoFuncionaPage() {
           </p>
         </div>
       </footer>
-
-      <style>{`
-        @keyframes cfFadeUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
-
     </div>
   )
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Urbanist, Plus_Jakarta_Sans, Nunito, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import { SITE_URL } from "@/lib/site-config";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -27,20 +28,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Conviva Saúde | Pacote de cuidado para idosos em BH — R$ 329/mês",
+  metadataBase: new URL(SITE_URL),
+  title: "Conviva Saúde | Pacote de cuidado para idosos em BH, R$ 329/mês",
   description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
-  alternates: { canonical: "https://convivasaude.vercel.app" },
+  alternates: { canonical: SITE_URL },
   openGraph: {
-    title: "Conviva Saúde | Pacote de cuidado para idosos em BH — R$ 329/mês",
+    title: "Conviva Saúde | Pacote de cuidado para idosos em BH, R$ 329/mês",
     description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
-    url: "https://convivasaude.vercel.app",
+    url: SITE_URL,
     siteName: "Conviva Saúde",
     locale: "pt_BR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Conviva Saúde | Pacote de cuidado para idosos em BH — R$ 329/mês",
+    title: "Conviva Saúde | Pacote de cuidado para idosos em BH, R$ 329/mês",
     description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
   },
 };

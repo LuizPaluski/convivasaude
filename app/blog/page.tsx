@@ -36,7 +36,14 @@ function CategoryBadge({ category }: { category: string }) {
 
 function ComingSoonBadge() {
   return (
-    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+    <span
+      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border"
+      style={{
+        background: "color-mix(in oklch, var(--warning, #f59e0b) 12%, var(--background))",
+        color: "var(--warning, #b45309)",
+        borderColor: "color-mix(in oklch, var(--warning, #f59e0b) 30%, transparent)",
+      }}
+    >
       Em breve
     </span>
   )
@@ -59,7 +66,7 @@ export default function BlogPage() {
         {/* ── Hero ──────────────────────────────────────────────────────── */}
         <section
           className="pt-16 md:pt-24 pb-10 md:pb-14"
-          style={{ animation: "blFadeUp 0.55s ease forwards", opacity: 0 }}
+          style={{ animation: "fadeUp 0.55s ease forwards", opacity: 0 }}
         >
           <div className="mx-auto max-w-6xl px-6">
             <div className="flex items-center gap-2 mb-4">
@@ -101,7 +108,7 @@ export default function BlogPage() {
         {filteredFeatured && (
           <section
             className="pb-12 md:pb-16"
-            style={{ animation: "blFadeUp 0.55s ease forwards", opacity: 0, animationDelay: "0.1s" }}
+            style={{ animation: "fadeUp 0.55s ease forwards", opacity: 0, animationDelay: "0.1s" }}
           >
             <div className="mx-auto max-w-6xl px-6">
               <Link
@@ -138,7 +145,7 @@ export default function BlogPage() {
                       <CategoryBadge category={featured.category} />
                     </div>
 
-                    <h2 className="text-2xl md:text-3xl font-bold leading-snug tracking-tight mb-4 group-hover:text-primary transition-colors">
+                    <h2 className="text-3xl md:text-4xl font-bold leading-snug tracking-tight mb-4 group-hover:text-primary transition-colors">
                       {featured.title}
                     </h2>
 
@@ -173,7 +180,7 @@ export default function BlogPage() {
             style={{
               borderTop: filteredFeatured ? "1px solid var(--border)" : "none",
               paddingTop: filteredFeatured ? undefined : undefined,
-              animation: "blFadeUp 0.55s ease forwards",
+              animation: "fadeUp 0.55s ease forwards",
               opacity: 0,
               animationDelay: "0.2s",
             }}
@@ -213,8 +220,8 @@ export default function BlogPage() {
 
         {/* ── CTA final ─────────────────────────────────────────────────── */}
         <section
-          className="py-16 md:py-20"
-          style={{ background: "var(--primary)", animation: "blFadeUp 0.55s ease forwards", opacity: 0, animationDelay: "0.3s" }}
+          className="py-20 md:py-28"
+          style={{ background: "var(--primary)", animation: "fadeUp 0.55s ease forwards", opacity: 0, animationDelay: "0.3s" }}
         >
           <div className="mx-auto max-w-2xl px-6 text-center">
             <h2
@@ -256,13 +263,6 @@ export default function BlogPage() {
       </main>
 
       <Footer />
-
-      <style>{`
-        @keyframes blFadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   )
 }

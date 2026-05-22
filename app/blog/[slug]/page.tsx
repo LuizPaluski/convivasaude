@@ -54,7 +54,7 @@ export default function BlogPostPage({ params }: Props) {
         {/* ── Article header ────────────────────────────────────────────── */}
         <header
           className="mx-auto max-w-5xl px-6 pt-8 pb-10"
-          style={{ animation: "artFadeUp 0.5s ease forwards", opacity: 0 }}
+          style={{ animation: "fadeUp 0.5s ease forwards", opacity: 0 }}
         >
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 mb-6">
@@ -92,7 +92,7 @@ export default function BlogPostPage({ params }: Props) {
         {/* ── Hero image ────────────────────────────────────────────────── */}
         <div
           className="mx-auto max-w-5xl px-6 mb-12"
-          style={{ animation: "artFadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.1s" }}
+          style={{ animation: "fadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.1s" }}
         >
           <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: "16/7" }}>
             <Image
@@ -112,7 +112,7 @@ export default function BlogPostPage({ params }: Props) {
         {/* ── Content + Sidebar ─────────────────────────────────────────── */}
         <div
           className="mx-auto max-w-5xl px-6 pb-20"
-          style={{ animation: "artFadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.15s" }}
+          style={{ animation: "fadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.15s" }}
         >
           <div className="grid lg:grid-cols-[1fr_268px] gap-12 xl:gap-16 items-start">
 
@@ -194,7 +194,7 @@ export default function BlogPostPage({ params }: Props) {
         {/* ── Mobile CTA after article ───────────────────────────────── */}
         <div
           className="lg:hidden mx-auto max-w-5xl px-6 pb-12"
-          style={{ animation: "artFadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.2s" }}
+          style={{ animation: "fadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.2s" }}
         >
           <div
             className="rounded-2xl p-6"
@@ -234,7 +234,7 @@ export default function BlogPostPage({ params }: Props) {
         {/* ── Artigos relacionados ───────────────────────────────────── */}
         <section
           className="py-14 md:py-16"
-          style={{ borderTop: "1px solid var(--border)", animation: "artFadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.25s" }}
+          style={{ borderTop: "1px solid var(--border)", animation: "fadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.25s" }}
         >
           <div className="mx-auto max-w-5xl px-6">
             <p className="text-xs font-semibold uppercase tracking-widest mb-8" style={{ color: "var(--muted-foreground)" }}>
@@ -304,8 +304,8 @@ export default function BlogPostPage({ params }: Props) {
 
         {/* ── CTA final ─────────────────────────────────────────────────── */}
         <section
-          className="py-16 md:py-20"
-          style={{ background: "var(--primary)", animation: "artFadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.3s" }}
+          className="py-20 md:py-28"
+          style={{ background: "var(--primary)", animation: "fadeUp 0.5s ease forwards", opacity: 0, animationDelay: "0.3s" }}
         >
           <div className="mx-auto max-w-2xl px-6 text-center">
             <h2
@@ -387,14 +387,6 @@ export default function BlogPostPage({ params }: Props) {
           </div>
         </div>
       )}
-
-      <style>{`
-        @keyframes artFadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        html { scroll-behavior: smooth; }
-      `}</style>
     </div>
   )
 }
@@ -474,7 +466,7 @@ function BlockRenderer({ block, onCta }: { block: ContentBlock; onCta: () => voi
           Quer acompanhamento médico para seu familiar?
         </p>
         <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--muted-foreground)" }}>
-          A Conviva Saúde oferece médico geriatra de referência, enfermeiro dedicado, equipe multidisciplinar e Pronto Cuidar por R$ 329/mês — sem carência, sem fidelidade.
+          A Conviva Saúde oferece médico geriatra de referência, enfermeiro dedicado, equipe multidisciplinar e Pronto Cuidar por R$ 329/mês, sem carência, sem fidelidade.
         </p>
         <div className="flex flex-col sm:flex-row gap-2">
           <button

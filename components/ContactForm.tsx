@@ -1,11 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Shield, ArrowRight, CheckCircle, Loader2, MailIcon, ChevronDown } from "lucide-react"
+import Link from "next/link"
+import { Shield, ArrowRight, CheckCircle, MailIcon, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { formatPhone, cleanPhone, isValidPhone } from "@/lib/formatPhone"
+import { buildWhatsAppLink, submitContactLead } from "@/lib/site-config"
+import { isDataNascimentoValida } from "@/lib/validators"
 
-const CONVENIOS = ["Unimed BH", "Unimed Nacional", "Desban", "Fundaffemg", "Particular", "Outros"] as const
+const CONVENIOS = ["Unimed BH", "Desban", "Fundaffemg", "Particular", "Outros"] as const
 
 const MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
 const DIAS  = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, "0"))
@@ -48,8 +51,10 @@ export default function ContactForm({
   const [convenio, setConvenio] = useState<Convenio | "">("")
   const [numeroCarteira, setNumeroCarteira] = useState("")
   const [qualConvenio, setQualConvenio] = useState("")
+  const [consent, setConsent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [errorMsg, setErrorMsg] = useState("")
 
   useEffect(() => {
     if (diaNasc || mesNasc || anoNasc) {
@@ -61,20 +66,61 @@ export default function ContactForm({
 
   const showCarteira =
     convenio === "Unimed BH" ||
-    convenio === "Unimed Nacional" ||
     convenio === "Desban" ||
     convenio === "Fundaffemg"
   const showQualConvenio = convenio === "Outros"
-  const canSubmit = nome.trim() !== "" && isValidPhone(telefone) && convenio !== ""
+  const dataNascValida = isDataNascimentoValida(dataNascimento)
+  const dataNascPreenchida = diaNasc !== "" && mesNasc !== "" && anoNasc !== ""
+  const dataNascErro = dataNascPreenchida && !dataNascValida
+  const canSubmit =
+    nome.trim() !== "" &&
+    isValidPhone(telefone) &&
+    dataNascValida &&
+    convenio !== "" &&
+    consent
 
   async function handleSubmit() {
     if (!canSubmit || loading) return
     setLoading(true)
+    setErrorMsg("")
+    const data = { nome, telefone, dataNascimento, email, convenio, numeroCarteira, qualConvenio }
     try {
-      await onSubmit?.({ nome, telefone, dataNascimento, email, convenio, numeroCarteira, qualConvenio })
+      if (onSubmit) {
+        await onSubmit(data)
+        setSubmitted(true)
+        return
+      }
+
+      const ok = await submitContactLead({
+        ...data,
+        origem: typeof window !== "undefined" ? window.location.pathname : "",
+        consentLGPD: consent,
+      })
+
+      if (!ok) {
+        setErrorMsg("Não conseguimos enviar agora. Você pode falar com a equipe direto pelo WhatsApp.")
+      }
+
+      const linhas = [
+        `Olá! Tenho interesse no Conviva Saúde.`,
+        ``,
+        `Nome: ${data.nome}`,
+        `Telefone: ${formatPhone(data.telefone)}`,
+        data.dataNascimento ? `Data de nasc.: ${data.dataNascimento}` : null,
+        data.email ? `E-mail: ${data.email}` : null,
+        `Convênio: ${data.convenio}`,
+        data.numeroCarteira ? `Carteirinha: ${data.numeroCarteira}` : null,
+        data.qualConvenio ? `Qual convênio: ${data.qualConvenio}` : null,
+      ].filter(Boolean).join("\n")
+      const url = buildWhatsAppLink(linhas)
+      if (typeof window !== "undefined") {
+        window.open(url, "_blank", "noopener,noreferrer")
+      }
+      setSubmitted(true)
+    } catch {
+      setErrorMsg("Erro inesperado. Tente novamente em instantes.")
     } finally {
       setLoading(false)
-      setSubmitted(true)
     }
   }
 
@@ -148,11 +194,10 @@ export default function ContactForm({
         </div>
       </div>
 
-      {/* 3. Data de nascimento — seletor Dia | Mês | Ano */}
+      {/* 3. Data de nascimento, seletor Dia | Mês | Ano */}
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-medium text-foreground/70">
-          Data de nascimento{" "}
-          <span className="text-muted-foreground font-normal">(opcional)</span>
+          Data de nascimento <span className="text-destructive">*</span>
         </label>
         <div className="grid grid-cols-3 gap-2">
           {/* Dia */}
@@ -194,6 +239,9 @@ export default function ContactForm({
             <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none text-muted-foreground" />
           </div>
         </div>
+        {dataNascErro && (
+          <p className="text-xs text-destructive">Data de nascimento inválida.</p>
+        )}
       </div>
 
       {/* 4. E-mail */}
@@ -210,7 +258,7 @@ export default function ContactForm({
         />
       </div>
 
-      {/* 5. Possui convênio? — botões radio */}
+      {/* 5. Possui convênio?, botões radio */}
       <div className="flex flex-col gap-2">
         <label className="text-xs font-medium text-foreground/70">
           Possui convênio de saúde? <span className="text-destructive">*</span>
@@ -284,6 +332,29 @@ export default function ContactForm({
           />
         </div>
       </div>
+
+      {/* Consentimento LGPD */}
+      <label className="flex items-start gap-2 text-xs text-foreground/80 cursor-pointer select-none">
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(e) => setConsent(e.target.checked)}
+          className="mt-0.5 size-4 shrink-0 cursor-pointer accent-primary"
+        />
+        <span>
+          Autorizo o uso dos meus dados para contato sobre o Conviva Saúde, conforme a{" "}
+          <Link href="/privacidade" className="underline text-primary hover:opacity-80" target="_blank">
+            Política de Privacidade
+          </Link>
+          . <span className="text-destructive">*</span>
+        </span>
+      </label>
+
+      {errorMsg && (
+        <p className="text-xs text-destructive" role="alert">
+          {errorMsg}
+        </p>
+      )}
 
       {/* Botão enviar */}
       <Button

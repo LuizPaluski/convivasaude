@@ -58,7 +58,7 @@ export default function Header() {
     <>
       <header
         className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80 transition-shadow duration-200"
-        style={scrolled ? { boxShadow: "0 2px 16px rgba(0,0,0,0.08)" } : undefined}
+        style={scrolled ? { boxShadow: "0 2px 16px color-mix(in oklch, var(--foreground) 8%, transparent)" } : undefined}
       >
         <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
 

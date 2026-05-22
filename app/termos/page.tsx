@@ -56,7 +56,7 @@ const sections = [
   {
     title: "5. Propriedade intelectual",
     content: [
-      "Todo o conteúdo deste site — incluindo textos, imagens, logotipos, identidade visual e demais materiais — é propriedade exclusiva da Conviva Saúde ou de seus licenciantes. É vedada a reprodução total ou parcial sem autorização prévia e expressa.",
+      "Todo o conteúdo deste site, incluindo textos, imagens, logotipos, identidade visual e demais materiais, é propriedade exclusiva da Conviva Saúde ou de seus licenciantes. É vedada a reprodução total ou parcial sem autorização prévia e expressa.",
     ],
   },
   {
