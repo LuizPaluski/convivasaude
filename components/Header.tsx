@@ -36,8 +36,8 @@ export default function Header() {
     setMobileOpen(false)
   }, [pathname])
 
-  // Checkout flow has its own minimal header
-  if (pathname.startsWith("/contratar")) return null
+  // Checkout flow e admin tem layout proprio
+  if (pathname.startsWith("/contratar") || pathname.startsWith("/admin")) return null
 
   function handleAnchor(href: string) {
     setMobileOpen(false)
