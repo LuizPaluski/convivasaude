@@ -87,20 +87,6 @@ export default function Footer() {
             <Badge variant="outline" className="text-[10px] gap-1">
               <Shield className="size-3" /> Dados protegidos · LGPD
             </Badge>
-            <div className="hidden sm:flex items-center gap-3">
-              <Link href="/styleguide" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                Sistema de Design →
-              </Link>
-              <Link href="/brandguide" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                Brand Guide →
-              </Link>
-              <Link href="/criativos" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                Criativos →
-              </Link>
-              <Link href="/planosmidia" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                Plano de Mídia →
-              </Link>
-            </div>
           </div>
         </div>
       </div>
