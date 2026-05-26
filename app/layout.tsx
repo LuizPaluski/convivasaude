@@ -3,6 +3,7 @@ import { Urbanist, Plus_Jakarta_Sans, Nunito, Geist_Mono } from "next/font/googl
 import "./globals.css";
 import Header from "@/components/Header";
 import { SITE_URL } from "@/lib/site-config";
+import Analytics, { GtmNoScript, MetaPixelNoScript } from "@/components/Analytics";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -45,6 +46,9 @@ export const metadata: Metadata = {
     title: "Conviva Saúde | Pacote de cuidado para idosos em BH, R$ 329/mês",
     description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
   },
+  verification: {
+    google: "ljPJmbuojKMgw6SK8WLd9Zi8F-ixLbATuhJSLYp6UDU",
+  },
 };
 
 export default function RootLayout({
@@ -55,8 +59,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${urbanist.variable} ${plusJakartaSans.variable} ${nunito.variable} ${geistMono.variable}`}>
       <body className="antialiased">
+        <GtmNoScript />
+        <MetaPixelNoScript />
         <Header />
         {children}
+        <Analytics />
       </body>
     </html>
   );

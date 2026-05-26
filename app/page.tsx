@@ -75,40 +75,6 @@ const steps = [
   },
 ]
 
-const testimonials = [
-  {
-    quote:
-      "Minha mãe tem 71 anos e vivia com medo de precisar de atendimento e não ter para onde correr. Com a Conviva, sei que tem alguém cuidando dela, e sem pagar R$ 1.500 por mês.",
-    author: "Fernanda A.",
-    role: "Filha de paciente, BH",
-    initials: "FA",
-    stars: 5,
-  },
-  {
-    quote:
-      "Eu mesmo escolhi entrar na Conviva. Queria um médico que me conhecesse, não ficar esperando meses. Me sinto acompanhado, não só atendido quando fico doente.",
-    author: "Seu Geraldo, 74 anos",
-    role: "Paciente, Contagem, MG",
-    initials: "SG",
-    stars: 5,
-  },
-  {
-    quote:
-      "Trabalhar com foco no idoso faz toda a diferença. Os pacientes chegam com medo e saem confiantes. Isso é o que a Conviva propõe desde o início.",
-    author: "Enf. Patrícia R.",
-    role: "Equipe Conviva Saúde",
-    initials: "PR",
-    stars: 5,
-  },
-  {
-    quote:
-      "Meu pai precisava de acompanhamento após um susto de saúde. A Conviva resolveu rápido, com uma equipe que entende de idoso de verdade.",
-    author: "Ricardo M.",
-    role: "Filho de paciente, Nova Lima, MG",
-    initials: "RM",
-    stars: 5,
-  },
-]
 
 const stats = [
   { value: "Médico de Referência", label: "Acompanha sua saúde de forma contínua" },
@@ -533,50 +499,6 @@ export default function HomePage() {
               className="object-cover object-center"
             />
           </div>
-        </div>
-      </section>
-
-      {/* ── Testimonials ────────────────────────────────────────────────── */}
-      <section id="depoimentos" className="py-20 md:py-28 bg-background">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="text-center mb-14">
-            <SectionLabel>Depoimentos</SectionLabel>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              Quem confia na Conviva Saúde
-            </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Pacientes e familiares que compartilham suas experiências.
-            </p>
-          </div>
-
-          <MobileCarousel desktopClass="md:grid md:grid-cols-2 md:gap-5 lg:grid-cols-4">
-            {testimonials.map(({ quote, author, role, initials, stars }, i) => (
-              <Card key={author} className="flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-lg" style={{ animation: "fadeUp 0.5s ease both", animationDelay: `${i * 80}ms` }}>
-                <CardContent className="pt-6 flex flex-col gap-4 flex-1">
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: stars }).map((_, i) => (
-                      <Star key={i} className="size-3.5 fill-warning text-warning" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-                    "{quote}"
-                  </p>
-                  <div className="flex items-center gap-3 pt-2 border-t border-border">
-                    <div
-                      className="size-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
-                      style={{ background: "color-mix(in oklch, var(--primary) 15%, var(--muted))", color: "var(--primary)" }}
-                    >
-                      {initials}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold truncate">{author}</p>
-                      <p className="text-xs text-muted-foreground truncate">{role}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </MobileCarousel>
         </div>
       </section>
 
