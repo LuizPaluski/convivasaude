@@ -204,7 +204,7 @@ export default function ContactForm({
           <div className="relative">
             <select
               value={diaNasc}
-              onChange={(e) => setDiaNasc(e.target.value)}
+              aria-label="Dia de nascimento"              onChange={(e) => setDiaNasc(e.target.value)}
               className="w-full rounded-xl border border-border bg-background/70 px-3 py-2.5 text-sm outline-none transition-all appearance-none pr-7 cursor-pointer focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
             >
               <option value="">Dia</option>
@@ -217,7 +217,7 @@ export default function ContactForm({
           <div className="relative">
             <select
               value={mesNasc}
-              onChange={(e) => setMesNasc(e.target.value)}
+              aria-label="Mês de nascimento"              onChange={(e) => setMesNasc(e.target.value)}
               className="w-full rounded-xl border border-border bg-background/70 px-3 py-2.5 text-sm outline-none transition-all appearance-none pr-7 cursor-pointer focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
             >
               <option value="">Mês</option>
@@ -230,7 +230,7 @@ export default function ContactForm({
           <div className="relative">
             <select
               value={anoNasc}
-              onChange={(e) => setAnoNasc(e.target.value)}
+              aria-label="Ano de nascimento"              onChange={(e) => setAnoNasc(e.target.value)}
               className="w-full rounded-xl border border-border bg-background/70 px-3 py-2.5 text-sm outline-none transition-all appearance-none pr-7 cursor-pointer focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
             >
               <option value="">Ano</option>

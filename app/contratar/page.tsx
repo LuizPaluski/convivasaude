@@ -178,7 +178,7 @@ export default function ContratarPage() {
           <div className="h-16 flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
-              <img src="/logo.svg" alt="Conviva Saúde" className="h-12 w-auto" />
+              <img src="/logo.svg" alt="Conviva Saúde" width={120} height={56} className="h-12 w-auto" />
             </Link>
 
             {/* Voltar ao site, visível em todos os tamanhos */}
@@ -493,7 +493,7 @@ export default function ContratarPage() {
                     <div className="relative">
                       <select
                         value={diaNasc}
-                        onChange={(e) => setDiaNasc(e.target.value)}
+                        aria-label="Dia de nascimento"                        onChange={(e) => setDiaNasc(e.target.value)}
                         className="w-full rounded-xl px-3 py-3.5 text-sm outline-none transition-all bg-background appearance-none pr-7 cursor-pointer"
                         style={inputStyle}
                         onFocus={onFocusInput}
@@ -509,7 +509,7 @@ export default function ContratarPage() {
                     <div className="relative">
                       <select
                         value={mesNasc}
-                        onChange={(e) => setMesNasc(e.target.value)}
+                        aria-label="Mês de nascimento"                        onChange={(e) => setMesNasc(e.target.value)}
                         className="w-full rounded-xl px-3 py-3.5 text-sm outline-none transition-all bg-background appearance-none pr-7 cursor-pointer"
                         style={inputStyle}
                         onFocus={onFocusInput}
@@ -525,7 +525,7 @@ export default function ContratarPage() {
                     <div className="relative">
                       <select
                         value={anoNasc}
-                        onChange={(e) => setAnoNasc(e.target.value)}
+                        aria-label="Ano de nascimento"                        onChange={(e) => setAnoNasc(e.target.value)}
                         className="w-full rounded-xl px-3 py-3.5 text-sm outline-none transition-all bg-background appearance-none pr-7 cursor-pointer"
                         style={inputStyle}
                         onFocus={onFocusInput}
@@ -552,7 +552,7 @@ export default function ContratarPage() {
                   <div className="relative">
                     <select
                       value={convenio}
-                      onChange={(e) => handleConvenioChange(e.target.value)}
+                      aria-label="Convênio de saúde"                      onChange={(e) => handleConvenioChange(e.target.value)}
                       className={`${inputCls} appearance-none pr-10 cursor-pointer`}
                       style={inputStyle}
                       onFocus={onFocusInput}

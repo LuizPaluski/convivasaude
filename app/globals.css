@@ -91,7 +91,7 @@
 
   /* === MUTED, Azul-cinza suave === */
   --muted: oklch(0.942 0.014 255);
-  --muted-foreground: oklch(0.52 0.035 258);
+  --muted-foreground: oklch(0.44 0.038 258);
 
   /* === ACCENT, Lavanda suave === */
   /* Acolhedor, calmante, complementa navy e sage */
@@ -165,7 +165,7 @@
 
   /* === MUTED === */
   --muted: oklch(0.23 0.030 258);
-  --muted-foreground: oklch(0.62 0.030 260);
+  --muted-foreground: oklch(0.70 0.030 260);
 
   /* === ACCENT === */
   --accent: oklch(0.28 0.045 285);
