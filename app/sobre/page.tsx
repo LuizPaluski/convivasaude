@@ -287,6 +287,8 @@ export default function SobrePage() {
               <img
                 src="https://mais60saude.com.br/wp-content/uploads/2023/07/logomais60.png"
                 alt="Mais60 Saúde"
+                width={213}
+                height={64}
                 className="h-16 w-auto object-contain mx-auto"
               />
               <div className="mt-5">

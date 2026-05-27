@@ -130,6 +130,8 @@ export default function UnidadesPage() {
                 <img
                   src="https://mais60saude.com.br/wp-content/uploads/2023/07/logomais60.png"
                   alt="Mais60 Saúde"
+                  width={160}
+                  height={48}
                   className="h-12 w-auto object-contain"
                 />
               </div>

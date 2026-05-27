@@ -10,7 +10,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="sm:col-span-2 md:col-span-1">
             <div className="flex items-center mb-3">
-              <img src="/logo.svg" alt="Conviva Saúde" className="h-14 w-auto" />
+              <img src="/logo.svg" alt="Conviva Saúde" width={140} height={66} className="h-14 w-auto" />
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
               Programa de cuidado contínuo para idosos, com médico de referência, equipe multidisciplinar e Pronto Cuidar, o pronto atendimento para o idoso.
