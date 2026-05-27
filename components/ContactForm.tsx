@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { formatPhone, cleanPhone, isValidPhone } from "@/lib/formatPhone"
 import { buildWhatsAppLink, submitContactLead } from "@/lib/site-config"
 import { isDataNascimentoValida } from "@/lib/validators"
+import { collectClientContext } from "@/lib/lead-context"
 
 const CONVENIOS = ["Unimed BH", "Desban", "Fundaffemg", "Particular", "Outros"] as const
 
@@ -95,6 +96,7 @@ export default function ContactForm({
         ...data,
         origem: typeof window !== "undefined" ? window.location.pathname : "",
         consentLGPD: consent,
+        ...collectClientContext(),
       })
 
       if (!ok) {

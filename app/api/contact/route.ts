@@ -47,6 +47,29 @@ interface ContactPayload {
   tipo: string
   origem: string
   consentLGPD: boolean
+  url: string
+  dispositivo: string
+  referralSource: string
+  utmSource: string
+  utmMedium: string
+  utmCampaign: string
+  utmId: string
+  utmTerm: string
+  utmContent: string
+}
+
+function dataConversaoBR(): string {
+  // "2026-05-27 01:30:00" no fuso de São Paulo
+  return new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "America/Sao_Paulo",
+    year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", second: "2-digit",
+    hour12: false,
+  }).format(new Date()).replace(",", "")
+}
+
+function detectDispositivo(ua: string): string {
+  return /Mobi|Android|iPhone|iPad|iPod/i.test(ua) ? "Mobile" : "Desktop"
 }
 
 export async function POST(req: Request) {
@@ -84,6 +107,15 @@ export async function POST(req: Request) {
     tipo: sanitize(body.tipo),
     origem: sanitize(body.origem),
     consentLGPD: body.consentLGPD === true,
+    url: sanitize(body.url),
+    dispositivo: sanitize(body.dispositivo),
+    referralSource: sanitize(body.referralSource),
+    utmSource: sanitize(body.utmSource),
+    utmMedium: sanitize(body.utmMedium),
+    utmCampaign: sanitize(body.utmCampaign),
+    utmId: sanitize(body.utmId),
+    utmTerm: sanitize(body.utmTerm),
+    utmContent: sanitize(body.utmContent),
   }
 
   if (!data.nome || data.nome.length < 2) {
@@ -103,14 +135,38 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "email_invalido" }, { status: 400 })
   }
 
-  const record = {
-    receivedAt: new Date().toISOString(),
-    ip,
-    userAgent: req.headers.get("user-agent") ?? "",
-    ...data,
-  }
-
+  const userAgent = req.headers.get("user-agent") ?? ""
+  const record = { receivedAt: new Date().toISOString(), ip, userAgent, ...data }
   console.log("[contact] novo lead:", JSON.stringify(record))
+
+  // Payload com os nomes do webhook da +60 (entra no branch body.URL do n8n)
+  const webhookPayload = {
+    Nome: data.nome,
+    Telefone: data.telefone,
+    E_mail: data.email,
+    Data_de_Nascimento: data.dataNascimento,
+    Para_quem_voce_deseja_contratar: data.tipo,
+    Possui_plano_de_saude: data.convenio,
+    qualConvenio: data.qualConvenio,
+    carteira: data.numeroCarteira,
+    faixaEtaria: data.faixaEtaria,
+    Politicas_de_privacidade: data.consentLGPD,
+    Referral_Source: data.referralSource || "Acesso direto",
+    Dispositivo: data.dispositivo || detectDispositivo(userAgent),
+    URL: data.url || data.origem,
+    IP_do_usuario: ip,
+    Data_da_conversao: dataConversaoBR(),
+    Id_do_formulario: `conviva-site-${Date.now()}`,
+    Pais_do_usuario: "",
+    Regiao_do_usuario: "",
+    Cidade_do_usuario: "",
+    UTM_Source: data.utmSource,
+    UTM_Medium: data.utmMedium,
+    UTM_Campaign: data.utmCampaign,
+    UTM_Id: data.utmId,
+    UTM_Term: data.utmTerm,
+    UTM_Content: data.utmContent,
+  }
 
   const webhook = process.env.CONTACT_WEBHOOK_URL
   if (webhook) {
@@ -118,7 +174,7 @@ export async function POST(req: Request) {
       const res = await fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(record),
+        body: JSON.stringify(webhookPayload),
         signal: AbortSignal.timeout(5000),
       })
       if (!res.ok) {

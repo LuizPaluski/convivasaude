@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { formatPhone, cleanPhone, isValidPhone } from "@/lib/formatPhone"
 import { buildWhatsAppLink, submitContactLead } from "@/lib/site-config"
 import { isDataNascimentoValida } from "@/lib/validators"
+import { collectClientContext } from "@/lib/lead-context"
 
 const STEP_LABELS = ["Início", "Sobre você", "Beneficiário", "Pacote", "Conclusão"]
 
@@ -144,6 +145,7 @@ export default function ContratarPage() {
         tipo: tipo === "mim" ? "Para mim mesmo" : "Para um familiar",
         origem: "/contratar",
         consentLGPD: consent,
+        ...collectClientContext(),
       })
     } finally {
       setSubmitting(false)
