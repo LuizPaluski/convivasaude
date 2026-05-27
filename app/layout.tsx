@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Urbanist, Plus_Jakarta_Sans, Nunito, Geist_Mono } from "next/font/google";
+import { Urbanist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { SITE_URL } from "@/lib/site-config";
@@ -9,23 +9,13 @@ const urbanist = Urbanist({
   variable: "--font-urbanist",
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700", "800"],
-});
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const nunito = Nunito({
-  variable: "--font-nunito",
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -57,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${urbanist.variable} ${plusJakartaSans.variable} ${nunito.variable} ${geistMono.variable}`}>
+    <html lang="pt-BR" className={`${urbanist.variable} ${geistMono.variable}`}>
       <body className="antialiased">
         <GtmNoScript />
         <MetaPixelNoScript />
