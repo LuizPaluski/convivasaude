@@ -223,7 +223,7 @@ export default function ContactForm({
               className="w-full rounded-xl border border-border bg-background/70 px-3 py-2.5 text-sm outline-none transition-all appearance-none pr-7 cursor-pointer focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
             >
               <option value="">Mês</option>
-              {MESES.map((m) => <option key={m} value={m}>{m}</option>)}
+              {MESES.map((m, i) => <option key={m} value={String(i + 1).padStart(2, "0")}>{m}</option>)}
             </select>
             <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none text-muted-foreground" />
           </div>

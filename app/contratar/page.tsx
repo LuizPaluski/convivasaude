@@ -518,7 +518,7 @@ export default function ContratarPage() {
                         onBlur={onBlurInput}
                       >
                         <option value="">Mês</option>
-                        {MESES.map((m) => <option key={m} value={m}>{m}</option>)}
+                        {MESES.map((m, i) => <option key={m} value={String(i + 1).padStart(2, "0")}>{m}</option>)}
                       </select>
                       <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none" style={{ color: "var(--muted-foreground)" }} />
                     </div>
