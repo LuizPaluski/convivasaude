@@ -11,7 +11,7 @@ const MAX_PAYLOAD_BYTES = 8 * 1024
 // (application/x-www-form-urlencoded). Override opcional via env.
 const LEAD_WEBHOOK_URL =
   process.env.LEAD_WEBHOOK_URL ??
-  "https://webhook.thegrowthhub.app.br/webhook/7febe4db-ed1a-484a-96ac-bae36cabbe14"
+  "https://webhook.thegrowthhub.app.br/webhook/Site"
 
 const RATE_WINDOW_MS = 60_000
 const RATE_LIMIT = 5
