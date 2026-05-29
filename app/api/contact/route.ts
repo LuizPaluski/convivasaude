@@ -7,6 +7,12 @@ export const dynamic = "force-dynamic"
 const MAX_FIELD_LEN = 500
 const MAX_PAYLOAD_BYTES = 8 * 1024
 
+// Webhook da +60 (n8n). Recebe os leads no formato exato da LP +60
+// (application/x-www-form-urlencoded). Override opcional via env.
+const LEAD_WEBHOOK_URL =
+  process.env.LEAD_WEBHOOK_URL ??
+  "https://webhook.thegrowthhub.app.br/webhook/7febe4db-ed1a-484a-96ac-bae36cabbe14"
+
 const RATE_WINDOW_MS = 60_000
 const RATE_LIMIT = 5
 const hits = new Map<string, { count: number; resetAt: number }>()
@@ -168,6 +174,48 @@ export async function POST(req: Request) {
     UTM_Content: data.utmContent,
   }
 
+  // Entrega ao webhook da +60 no formato exato do body da LP
+  // (application/x-www-form-urlencoded, mesmas chaves e mesmo formato).
+  const plus60Body = new URLSearchParams({
+    Nome: data.nome,
+    Telefone: data.telefone,
+    E_mail: data.email,
+    Data_de_Nascimento: data.dataNascimento,
+    Para_quem_voce_deseja_contratar: JSON.stringify({ "0": data.tipo }),
+    Possui_plano_de_saude: JSON.stringify({ "0": data.convenio }),
+    Politicas_de_privacidade: String(data.consentLGPD),
+    Referral_Source: data.referralSource || "Acesso direto",
+    Dispositivo: data.dispositivo || detectDispositivo(userAgent),
+    URL: data.url || data.origem,
+    IP_do_usuario: ip,
+    Data_da_conversao: dataConversaoBR(),
+    Id_do_formulario: `conviva-site-${Date.now()}`,
+    Pais_do_usuario: "",
+    Regiao_do_usuario: "",
+    Cidade_do_usuario: "",
+    UTM_Source: data.utmSource,
+    UTM_Medium: data.utmMedium,
+    UTM_Campaign: data.utmCampaign,
+    UTM_Id: data.utmId,
+    UTM_Term: data.utmTerm,
+    UTM_Content: data.utmContent,
+  })
+
+  try {
+    const res = await fetch(LEAD_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: plus60Body.toString(),
+      signal: AbortSignal.timeout(5000),
+    })
+    if (!res.ok) {
+      console.error("[contact] webhook +60 respondeu", res.status)
+    }
+  } catch (err) {
+    console.error("[contact] webhook +60 falhou:", err)
+  }
+
+  // Webhook JSON legado (opcional, dispara apenas se CONTACT_WEBHOOK_URL setado).
   const webhook = process.env.CONTACT_WEBHOOK_URL
   if (webhook) {
     try {
