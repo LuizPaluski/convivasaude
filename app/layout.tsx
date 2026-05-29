@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import { SITE_URL } from "@/lib/site-config";
 import Analytics, { GtmNoScript, MetaPixelNoScript } from "@/components/Analytics";
+import PageViewTracker from "@/components/PageViewTracker";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -54,6 +55,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Analytics />
+        <PageViewTracker />
       </body>
     </html>
   );

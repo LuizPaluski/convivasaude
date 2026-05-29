@@ -10,7 +10,7 @@ export default function Analytics() {
   return (
     <>
       {/* Google Tag Manager */}
-      <Script id="gtm" strategy="lazyOnload">
+      <Script id="gtm" strategy="afterInteractive">
         {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -21,7 +21,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       {/* GA4 disparado pelo container GTM (evita carga dupla do gtag.js) */}
 
       {/* Microsoft Clarity */}
-      <Script id="clarity" strategy="lazyOnload">
+      <Script id="clarity" strategy="afterInteractive">
         {`(function(c,l,a,r,i,t,y){
 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
 t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -30,7 +30,7 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       </Script>
 
       {/* Meta Pixel */}
-      <Script id="meta-pixel" strategy="lazyOnload">
+      <Script id="meta-pixel" strategy="afterInteractive">
         {`!function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
