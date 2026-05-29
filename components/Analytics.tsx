@@ -1,11 +1,13 @@
 import Script from "next/script"
 
 const GTM_ID = "GTM-K7CQ77LP"
+const GA4_ID = "G-PP0R3RNJ5J"
 const CLARITY_ID = "wx96k14epq"
 const META_PIXEL_ID = "1215797767193362"
 
-// GA4 (G-PP0R3RNJ5J) e Ads (AW-18165768538) sao disparados pelo container GTM.
-// Nao carregar gtag.js direto aqui para evitar carga duplicada.
+// GA4 (G-PP0R3RNJ5J) carregado direto via gtag.js (NAO esta no container GTM).
+// Ads (AW-18165768538) continua disparando pelo container GTM.
+// Nao adicionar GA4 tambem no GTM, ou contaria pageview em dobro.
 export default function Analytics() {
   return (
     <>
@@ -18,7 +20,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${GTM_ID}');`}
       </Script>
 
-      {/* GA4 disparado pelo container GTM (evita carga dupla do gtag.js) */}
+      {/* Google tag (gtag.js) - GA4 */}
+      <Script
+        id="ga4-loader"
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="ga4" strategy="afterInteractive">
+        {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA4_ID}');`}
+      </Script>
 
       {/* Microsoft Clarity */}
       <Script id="clarity" strategy="afterInteractive">
