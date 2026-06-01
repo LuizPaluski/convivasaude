@@ -13,6 +13,10 @@ const LEAD_WEBHOOK_URL =
   process.env.LEAD_WEBHOOK_URL ??
   "https://webhook.thegrowthhub.app.br/webhook/Site"
 
+// Webhook do dashboard Lovable (Mais60). Recebe o lead em JSON.
+// URL contem secret, por isso fica apenas em env (nunca commitado).
+const LOVABLE_WEBHOOK_URL = process.env.LOVABLE_WEBHOOK_URL
+
 const RATE_WINDOW_MS = 60_000
 const RATE_LIMIT = 5
 const hits = new Map<string, { count: number; resetAt: number }>()
@@ -213,6 +217,23 @@ export async function POST(req: Request) {
     }
   } catch (err) {
     console.error("[contact] webhook +60 falhou:", err)
+  }
+
+  // Entrega ao dashboard Lovable (JSON, mesmas chaves da +60).
+  if (LOVABLE_WEBHOOK_URL) {
+    try {
+      const res = await fetch(LOVABLE_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(webhookPayload),
+        signal: AbortSignal.timeout(5000),
+      })
+      if (!res.ok) {
+        console.error("[contact] webhook Lovable respondeu", res.status)
+      }
+    } catch (err) {
+      console.error("[contact] webhook Lovable falhou:", err)
+    }
   }
 
   // Webhook JSON legado (opcional, dispara apenas se CONTACT_WEBHOOK_URL setado).
