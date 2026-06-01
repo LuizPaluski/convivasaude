@@ -208,53 +208,44 @@ export async function POST(req: Request) {
     UTM_Content: data.utmContent,
   })
 
-  try {
-    const res = await fetch(LEAD_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: plus60Body.toString(),
-      signal: AbortSignal.timeout(5000),
-    })
-    if (!res.ok) {
-      console.error("[contact] webhook +60 respondeu", res.status)
-    }
-  } catch (err) {
-    console.error("[contact] webhook +60 falhou:", err)
-  }
+  // Entrega aos webhooks SEM bloquear a resposta. O servidor roda persistente
+  // (next start), entao as promises completam apos o return. Timeout alto cobre
+  // cold start de funcoes serverless (ex: Lovable leva ~11s na primeira chamada).
+  const WEBHOOK_TIMEOUT = 15000
 
-  // Entrega ao dashboard Lovable (JSON, mesmas chaves da +60).
+  // 1. n8n +60 (form-urlencoded, formato exato da LP)
+  fetch(LEAD_WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: plus60Body.toString(),
+    signal: AbortSignal.timeout(WEBHOOK_TIMEOUT),
+  })
+    .then((res) => { if (!res.ok) console.error("[contact] webhook +60 respondeu", res.status) })
+    .catch((err) => console.error("[contact] webhook +60 falhou:", err))
+
+  // 2. Dashboard Lovable (JSON, mesmas chaves da +60)
   if (LOVABLE_WEBHOOK_URL) {
-    try {
-      const res = await fetch(LOVABLE_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(webhookPayload),
-        signal: AbortSignal.timeout(5000),
-      })
-      if (!res.ok) {
-        console.error("[contact] webhook Lovable respondeu", res.status)
-      }
-    } catch (err) {
-      console.error("[contact] webhook Lovable falhou:", err)
-    }
+    fetch(LOVABLE_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(webhookPayload),
+      signal: AbortSignal.timeout(WEBHOOK_TIMEOUT),
+    })
+      .then((res) => { if (!res.ok) console.error("[contact] webhook Lovable respondeu", res.status) })
+      .catch((err) => console.error("[contact] webhook Lovable falhou:", err))
   }
 
-  // Webhook JSON legado (opcional, dispara apenas se CONTACT_WEBHOOK_URL setado).
+  // 3. Webhook JSON legado (opcional, dispara apenas se CONTACT_WEBHOOK_URL setado)
   const webhook = process.env.CONTACT_WEBHOOK_URL
   if (webhook) {
-    try {
-      const res = await fetch(webhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(webhookPayload),
-        signal: AbortSignal.timeout(5000),
-      })
-      if (!res.ok) {
-        console.error("[contact] webhook respondeu", res.status)
-      }
-    } catch (err) {
-      console.error("[contact] webhook falhou:", err)
-    }
+    fetch(webhook, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(webhookPayload),
+      signal: AbortSignal.timeout(WEBHOOK_TIMEOUT),
+    })
+      .then((res) => { if (!res.ok) console.error("[contact] webhook respondeu", res.status) })
+      .catch((err) => console.error("[contact] webhook falhou:", err))
   }
 
   return NextResponse.json({ ok: true })
