@@ -6,7 +6,7 @@ import { Shield, ArrowRight, CheckCircle, MailIcon, ChevronDown } from "lucide-r
 import { Button } from "@/components/ui/button"
 import { formatPhone, cleanPhone, isValidPhone } from "@/lib/formatPhone"
 import { buildWhatsAppLink, submitContactLead } from "@/lib/site-config"
-import { isDataNascimentoValida } from "@/lib/validators"
+import { isDataNascimentoValida, isValidEmail } from "@/lib/validators"
 import { collectClientContext } from "@/lib/lead-context"
 
 const CONVENIOS = ["Unimed BH", "Desban", "Fundaffemg", "Particular", "Outros"] as const
@@ -73,10 +73,13 @@ export default function ContactForm({
   const dataNascValida = isDataNascimentoValida(dataNascimento)
   const dataNascPreenchida = diaNasc !== "" && mesNasc !== "" && anoNasc !== ""
   const dataNascErro = dataNascPreenchida && !dataNascValida
+  const emailValido = isValidEmail(email)
+  const emailErro = email !== "" && !emailValido
   const canSubmit =
     nome.trim() !== "" &&
     isValidPhone(telefone) &&
     dataNascValida &&
+    emailValido &&
     convenio !== "" &&
     consent
 
@@ -249,7 +252,7 @@ export default function ContactForm({
       {/* 4. E-mail */}
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-medium text-foreground/70">
-          E-mail <span className="text-muted-foreground font-normal">(opcional)</span>
+          E-mail <span className="text-destructive">*</span>
         </label>
         <input
           type="email"
@@ -258,6 +261,9 @@ export default function ContactForm({
           onChange={(e) => setEmail(e.target.value)}
           className={inputCls}
         />
+        {emailErro && (
+          <span className="text-xs text-destructive">Informe um e-mail válido.</span>
+        )}
       </div>
 
       {/* 5. Possui convênio?, botões radio */}

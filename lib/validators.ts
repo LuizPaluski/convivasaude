@@ -1,3 +1,7 @@
+export function isValidEmail(s: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim())
+}
+
 export function isDataNascimentoValida(s: string): boolean {
   const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s)
   if (!m) return false

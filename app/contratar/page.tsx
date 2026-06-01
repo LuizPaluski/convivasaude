@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { formatPhone, cleanPhone, isValidPhone } from "@/lib/formatPhone"
 import { buildWhatsAppLink, submitContactLead } from "@/lib/site-config"
-import { isDataNascimentoValida } from "@/lib/validators"
+import { isDataNascimentoValida, isValidEmail } from "@/lib/validators"
 import { collectClientContext } from "@/lib/lead-context"
 
 const STEP_LABELS = ["Início", "Sobre você", "Beneficiário", "Pacote", "Conclusão"]
@@ -84,6 +84,8 @@ export default function ContratarPage() {
   // Derived
   const nomeValido     = nome.trim().split(/\s+/).filter(Boolean).length >= 2
   const whatsappValido = isValidPhone(whatsapp)
+  const emailValido    = isValidEmail(email)
+  const emailErro      = email !== "" && !emailValido
   const showCarteira      = CONVENIOS_COM_CARTEIRA.has(convenio)
   const showQualConvenio  = convenio === "Outros"
   const dataNascPreenchida = diaNasc !== "" && mesNasc !== "" && anoNasc !== ""
@@ -91,7 +93,7 @@ export default function ContratarPage() {
   const dataNascErro      = dataNascPreenchida && !dataNascValida
 
   const canContinue =
-    step === 1 ? nomeValido && whatsappValido :
+    step === 1 ? nomeValido && emailValido && whatsappValido :
     step === 2 ? faixaEtaria !== "" && dataNascValida && convenio !== "" :
     true
 
@@ -386,9 +388,7 @@ export default function ContratarPage() {
                   <div className="flex flex-col gap-1.5" style={{ animation: "wizardFade 0.35s ease both" }}>
                     <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--muted-foreground)" }}>
                       E-mail{" "}
-                      <span className="normal-case font-normal tracking-normal" style={{ color: "var(--muted-foreground)", opacity: 0.6 }}>
-                        (opcional)
-                      </span>
+                      <span style={{ color: "var(--destructive)" }} className="normal-case tracking-normal font-normal">*</span>
                     </label>
                     <input
                       type="email"
@@ -400,6 +400,9 @@ export default function ContratarPage() {
                       onFocus={onFocusInput}
                       onBlur={onBlurInput}
                     />
+                    {emailErro && (
+                      <span className="text-xs" style={{ color: "var(--destructive)" }}>Informe um e-mail válido.</span>
+                    )}
                   </div>
                 )}
 

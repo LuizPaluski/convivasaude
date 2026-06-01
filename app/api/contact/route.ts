@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { isDataNascimentoValida } from "@/lib/validators"
+import { isDataNascimentoValida, isValidEmail } from "@/lib/validators"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -141,7 +141,10 @@ export async function POST(req: Request) {
   if (!isDataNascimentoValida(data.dataNascimento)) {
     return NextResponse.json({ ok: false, error: "data_nascimento_invalida" }, { status: 400 })
   }
-  if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+  if (!data.email) {
+    return NextResponse.json({ ok: false, error: "email_required" }, { status: 400 })
+  }
+  if (!isValidEmail(data.email)) {
     return NextResponse.json({ ok: false, error: "email_invalido" }, { status: 400 })
   }
 
