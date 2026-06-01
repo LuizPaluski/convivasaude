@@ -40,9 +40,7 @@ c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
 t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window, document, "clarity", "script", "${CLARITY_ID}");
-function clarityConsent(){try{window.clarity&&window.clarity("consentv2",{ad_Storage:"granted",analytics_Storage:"granted"});window.clarity&&window.clarity("consent");}catch(e){}}
-clarityConsent();
-var clarityTries=0,clarityIv=setInterval(function(){clarityConsent();if(++clarityTries>12)clearInterval(clarityIv);},800);`}
+window.clarity && window.clarity("consentv2", { ad_Storage: "granted", analytics_Storage: "granted" });`}
       </Script>
 
       {/* Meta Pixel */}
