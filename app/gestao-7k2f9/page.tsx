@@ -15,7 +15,7 @@ export default function AdminHomePage() {
             <p className="text-xs text-muted-foreground">{posts.length} artigo(s)</p>
           </div>
           <Link
-            href="/admin/posts/new"
+            href="/gestao-7k2f9/posts/new"
             className="rounded-xl bg-primary text-primary-foreground px-4 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             + Novo artigo

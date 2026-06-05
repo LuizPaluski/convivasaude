@@ -23,7 +23,7 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ senha }),
       })
       if (res.ok) {
-        router.push("/admin")
+        router.push("/gestao-7k2f9")
         router.refresh()
       } else {
         setErro(res.status === 401 ? "Senha incorreta." : "Erro ao entrar. Tente novamente.")

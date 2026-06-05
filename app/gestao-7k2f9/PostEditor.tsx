@@ -66,7 +66,7 @@ export default function PostEditor({ initial }: { initial?: EditorInitial }) {
       })
       const data = await res.json().catch(() => ({}))
       if (res.ok) {
-        router.push("/admin")
+        router.push("/gestao-7k2f9")
         router.refresh()
       } else {
         setErro(traduzErro(data?.error))
@@ -81,7 +81,7 @@ export default function PostEditor({ initial }: { initial?: EditorInitial }) {
   return (
     <div className="min-h-screen" style={{ background: "var(--muted)" }}>
       <div className="mx-auto max-w-3xl px-6 py-10">
-        <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-6">
+        <Link href="/gestao-7k2f9" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-6">
           <ArrowLeft className="size-4" /> Voltar
         </Link>
 

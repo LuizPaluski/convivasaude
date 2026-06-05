@@ -34,7 +34,7 @@ export default function Header() {
   }, [pathname])
 
   // Checkout flow e admin tem layout proprio
-  if (pathname.startsWith("/contratar") || pathname.startsWith("/admin")) return null
+  if (pathname.startsWith("/contratar") || pathname.startsWith("/gestao-7k2f9")) return null
 
   function handleAnchor(href: string) {
     setMobileOpen(false)

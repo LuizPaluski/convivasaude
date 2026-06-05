@@ -19,12 +19,12 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // Protege /admin (exceto a propria tela de login)
-  if (path.startsWith("/admin") && path !== "/admin/login") {
+  // Protege /gestao-7k2f9 (exceto a propria tela de login)
+  if (path.startsWith("/gestao-7k2f9") && path !== "/gestao-7k2f9/login") {
     const ok = await verifySessionToken(req.cookies.get(ADMIN_COOKIE)?.value)
     if (!ok) {
       const url = req.nextUrl.clone()
-      url.pathname = "/admin/login"
+      url.pathname = "/gestao-7k2f9/login"
       url.search = ""
       return NextResponse.redirect(url)
     }
@@ -39,6 +39,6 @@ export const config = {
     "/brandguide/:path*",
     "/criativos/:path*",
     "/planosmidia/:path*",
-    "/admin/:path*",
+    "/gestao-7k2f9/:path*",
   ],
 }

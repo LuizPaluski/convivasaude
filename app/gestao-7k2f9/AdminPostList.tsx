@@ -32,7 +32,7 @@ export default function AdminPostList({ posts }: { posts: Row[] }) {
 
   async function handleLogout() {
     await fetch("/api/admin/logout", { method: "POST" })
-    router.push("/admin/login")
+    router.push("/gestao-7k2f9/login")
     router.refresh()
   }
 
@@ -77,7 +77,7 @@ export default function AdminPostList({ posts }: { posts: Row[] }) {
               </Link>
             )}
             <Link
-              href={`/admin/posts/${p.id}/edit`}
+              href={`/gestao-7k2f9/posts/${p.id}/edit`}
               className="size-9 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
               title="Editar"
             >
