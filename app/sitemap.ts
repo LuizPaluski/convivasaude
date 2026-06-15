@@ -5,9 +5,11 @@ import { getPublishedPosts } from "@/lib/blog-db"
 export const dynamic = "force-dynamic"
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // publishedAt e armazenado como texto pt-BR ("15 de janeiro de 2026"), que nao
+  // e um datetime W3C valido para <lastmod>. lastmod e opcional, entao omitimos
+  // em vez de emitir data invalida (que o SemRush marca como pagina incorreta).
   const posts = getPublishedPosts().map((p) => ({
     url: `${SITE_URL}/blog/${p.slug}`,
-    lastModified: p.publishedAt || undefined,
     changeFrequency: "monthly" as const,
     priority: 0.5,
   }))
