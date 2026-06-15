@@ -21,12 +21,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Conviva Saúde | Pacote de cuidado para idosos em BH, R$ 329/mês",
-  description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
+  title: "Cuidado para idosos em BH | Conviva Saúde, R$ 329/mês",
+  description: "Cuidado para idosos em BH: a Conviva Saúde oferece médico de referência, equipe multidisciplinar e Pronto Cuidar por R$ 329/mês, sem carência.",
   alternates: { canonical: SITE_URL },
   openGraph: {
-    title: "Conviva Saúde | Pacote de cuidado para idosos em BH, R$ 329/mês",
-    description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
+    title: "Cuidado para idosos em BH | Conviva Saúde, R$ 329/mês",
+    description: "Cuidado para idosos em BH: a Conviva Saúde oferece médico de referência, equipe multidisciplinar e Pronto Cuidar por R$ 329/mês, sem carência.",
     url: SITE_URL,
     siteName: "Conviva Saúde",
     locale: "pt_BR",
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Conviva Saúde | Pacote de cuidado para idosos em BH, R$ 329/mês",
-    description: "A Conviva Saúde é um pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar. R$ 329/mês, sem carência.",
+    title: "Cuidado para idosos em BH | Conviva Saúde, R$ 329/mês",
+    description: "Cuidado para idosos em BH: a Conviva Saúde oferece médico de referência, equipe multidisciplinar e Pronto Cuidar por R$ 329/mês, sem carência.",
   },
   verification: {
     google: "ljPJmbuojKMgw6SK8WLd9Zi8F-ixLbATuhJSLYp6UDU",
