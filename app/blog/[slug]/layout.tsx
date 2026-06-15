@@ -11,12 +11,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Artigo não encontrado | Blog Conviva Saúde" }
   }
   const url = `${SITE_URL}/blog/${slug}`
+  // Mantem o <title> <= 60 chars: so anexa a marca quando couber (limite Google).
+  const suffix = " | Conviva Saúde"
+  const pageTitle =
+    post.title.length + suffix.length <= 60 ? `${post.title}${suffix}` : post.title
   return {
-    title: `${post.title} | Blog Conviva Saúde`,
+    title: pageTitle,
     description: post.excerpt,
     alternates: { canonical: url },
     openGraph: {
-      title: `${post.title} | Blog Conviva Saúde`,
+      title: pageTitle,
       description: post.excerpt,
       url,
       siteName: "Conviva Saúde",
@@ -25,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${post.title} | Blog Conviva Saúde`,
+      title: pageTitle,
       description: post.excerpt,
     },
   }
