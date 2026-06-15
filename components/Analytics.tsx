@@ -40,7 +40,7 @@ c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
 t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window, document, "clarity", "script", "${CLARITY_ID}");
-window.clarity && window.clarity("consentv2", { ad_Storage: "granted", analytics_Storage: "granted" });`}
+window.clarity && window.clarity("consentv2", { ad_storage: "granted", analytics_storage: "granted" });`}
       </Script>
 
       {/* Meta Pixel */}
