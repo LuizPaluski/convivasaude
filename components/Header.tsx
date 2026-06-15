@@ -9,6 +9,7 @@ import { Menu, X } from "lucide-react"
 
 const NAV_LINKS = [
   { label: "A Conviva Saúde", href: "/sobre" },
+  { label: "Como funciona", href: "/como-funciona" },
   { label: "Preço", href: "/#planos" },
   { label: "Unidades", href: "/unidades" },
   { label: "FAQ", href: "/faq" },
