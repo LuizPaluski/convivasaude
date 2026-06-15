@@ -1,14 +1,15 @@
 import type { Metadata } from "next"
+import { SITE_URL } from "@/lib/site-config"
 import { FileText } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Termos de Uso | Conviva Saúde",
   description: "Termos e condições de uso da Conviva Saúde.",
-  alternates: { canonical: "https://convivasaude.vercel.app/termos" },
+  alternates: { canonical: `${SITE_URL}/termos` },
   openGraph: {
     title: "Termos de Uso | Conviva Saúde",
     description: "Termos e condições de uso da Conviva Saúde.",
-    url: "https://convivasaude.vercel.app/termos",
+    url: `${SITE_URL}/termos`,
     siteName: "Conviva Saúde",
     locale: "pt_BR",
     type: "website",

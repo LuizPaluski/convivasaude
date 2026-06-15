@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { SITE_URL } from "@/lib/site-config"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -93,7 +94,7 @@ export default function HomePage() {
     "@type": "MedicalBusiness",
     "name": "Conviva Saúde",
     "description": "Pacote de cuidado contínuo para idosos 60+ em Belo Horizonte. Médico de referência, equipe multidisciplinar e Pronto Cuidar.",
-    "url": "https://convivasaude.vercel.app",
+    "url": SITE_URL,
     "telephone": "+5531936182994",
     "email": "contato@convivasaude.com.br",
     "address": {
