@@ -104,7 +104,8 @@ export default function HomePage() {
       "addressCountry": "BR"
     },
     "priceRange": "R$ 329/mês",
-    "areaServed": "Belo Horizonte e região metropolitana"
+    "areaServed": "Belo Horizonte e região metropolitana",
+    "sameAs": ["https://www.instagram.com/convivasaude/"]
   }
 
   return (
