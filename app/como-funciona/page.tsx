@@ -43,7 +43,7 @@ const benefits = [
   { icon: Users, title: "Equipe multidisciplinar", desc: "10 especialidades: fisioterapeuta, psicólogo, nutricionista, fonoaudiólogo e mais." },
   { icon: Phone, title: "Pronto Cuidar 24h", desc: "Pronto atendimento exclusivo para idosos, disponível a qualquer hora. Com coparticipação." },
   { icon: Shield, title: "Sem carência", desc: "O cuidado começa imediatamente após a contratação. Sem período de espera." },
-  { icon: RefreshCw, title: "Sem fidelidade", desc: "Cancele quando quiser, sem multa e sem burocracia." },
+  { icon: RefreshCw, title: "Fidelidade de 4 meses", desc: "Compromisso mínimo de 4 meses. Depois, cancele quando quiser avisando com 30 dias." },
 ]
 
 const faqs = [
@@ -57,7 +57,7 @@ const faqs = [
   },
   {
     q: "Posso cancelar quando quiser?",
-    a: "Sim. Não há fidelidade mínima. Basta entrar em contato com nossa equipe com 30 dias de antecedência.",
+    a: "A Conviva tem fidelidade mínima de 4 meses. Após esse período, basta entrar em contato com nossa equipe com 30 dias de antecedência.",
   },
   {
     q: "A Conviva é um plano de saúde?",
@@ -175,7 +175,7 @@ export default function ComoFuncionaPage() {
                 Tudo no mesmo pacote
               </h2>
               <p className="text-sm" style={{ color: "var(--muted-foreground)" }}>
-                R$ 329/mês, sem reajuste por idade, sem carência, sem fidelidade
+                R$ 329/mês, sem reajuste por idade, sem carência
               </p>
             </div>
 

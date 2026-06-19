@@ -18,6 +18,7 @@ const ANOS  = Array.from({ length: ANO_ATUAL - 1919 }, (_, i) => String(ANO_ATUA
 type Convenio = (typeof CONVENIOS)[number]
 
 interface ContactFormData {
+  paraQuem: "mim" | "outra" | ""
   nome: string
   telefone: string
   dataNascimento: string
@@ -41,6 +42,7 @@ export default function ContactForm({
   showCard = true,
   onSubmit,
 }: ContactFormProps) {
+  const [paraQuem, setParaQuem] = useState<"mim" | "outra" | "">("")
   const [nome, setNome] = useState("")
   const [telefone, setTelefone] = useState("")
   const [phoneFocused, setPhoneFocused] = useState(false)
@@ -76,6 +78,7 @@ export default function ContactForm({
   const emailValido = isValidEmail(email)
   const emailErro = email !== "" && !emailValido
   const canSubmit =
+    paraQuem !== "" &&
     nome.trim() !== "" &&
     isValidPhone(telefone) &&
     dataNascValida &&
@@ -87,7 +90,7 @@ export default function ContactForm({
     if (!canSubmit || loading) return
     setLoading(true)
     setErrorMsg("")
-    const data = { nome, telefone, dataNascimento, email, convenio, numeroCarteira, qualConvenio }
+    const data = { paraQuem, nome, telefone, dataNascimento, email, convenio, numeroCarteira, qualConvenio }
     try {
       if (onSubmit) {
         await onSubmit(data)
@@ -97,6 +100,7 @@ export default function ContactForm({
 
       const ok = await submitContactLead({
         ...data,
+        tipo: paraQuem === "mim" ? "Para mim mesmo" : "Para um familiar",
         origem: typeof window !== "undefined" ? window.location.pathname : "",
         consentLGPD: consent,
         ...collectClientContext(),
@@ -109,6 +113,7 @@ export default function ContactForm({
       const linhas = [
         `Olá! Tenho interesse no Conviva Saúde.`,
         ``,
+        `Contratação: ${data.paraQuem === "mim" ? "Para mim mesmo" : "Para um familiar"}`,
         `Nome: ${data.nome}`,
         `Telefone: ${formatPhone(data.telefone)}`,
         data.dataNascimento ? `Data de nasc.: ${data.dataNascimento}` : null,
@@ -155,6 +160,38 @@ export default function ContactForm({
 
   const formContent = (
     <div className={`flex flex-col gap-4${showCard ? " px-6 py-5" : ""}`}>
+      {/* 0. Para quem é a contratação? */}
+      <div className="flex flex-col gap-2">
+        <label className="text-xs font-medium text-foreground/70">
+          Para quem é a contratação? <span className="text-destructive">*</span>
+        </label>
+        <div className="grid grid-cols-2 gap-2">
+          {([
+            { value: "mim", label: "Para mim" },
+            { value: "outra", label: "Para outra pessoa" },
+          ] as const).map((op) => {
+            const selected = paraQuem === op.value
+            return (
+              <button
+                key={op.value}
+                type="button"
+                onClick={() => setParaQuem(op.value)}
+                className="rounded-xl py-3 px-3 text-xs font-medium text-left transition-all duration-150 active:scale-[0.97]"
+                style={{
+                  border: `1.5px solid ${selected ? "var(--primary)" : "var(--border)"}`,
+                  background: selected
+                    ? "color-mix(in oklch, var(--primary) 10%, var(--background))"
+                    : "var(--background)",
+                  color: selected ? "var(--primary)" : undefined,
+                }}
+              >
+                {op.label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
       {/* 1. Nome */}
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-medium text-foreground/70">

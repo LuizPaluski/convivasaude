@@ -138,33 +138,19 @@ export default function UnidadesPage() {
 
               {/* Coluna de imagem */}
               <div className="relative" style={{ animation: "float 7s ease-in-out infinite" }}>
-                {/* Placeholder imagem principal */}
+                {/* Imagem da unidade */}
                 <div
                   className="relative w-full overflow-hidden"
                   style={{
                     aspectRatio: "4/3",
                     borderRadius: "2.5rem 4rem 2rem 3.5rem",
-                    background: "linear-gradient(135deg, color-mix(in oklch, var(--primary) 30%, var(--muted)), color-mix(in oklch, var(--primary) 10%, var(--muted)) 60%, color-mix(in oklch, var(--primary) 20%, var(--muted)))",
                   }}
                 >
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background: "linear-gradient(225deg, color-mix(in oklch, var(--primary) 15%, transparent) 0%, transparent 50%, color-mix(in oklch, var(--primary) 8%, transparent) 100%)",
-                      animation: "gradientShift 8s ease-in-out infinite",
-                    }}
+                  <img
+                    src="/unidade-bh.jpg"
+                    alt="Unidade Mais60 Saúde em Belo Horizonte"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                    <div
-                      className="size-16 rounded-2xl flex items-center justify-center"
-                      style={{ background: "color-mix(in oklch, var(--primary) 18%, white)", boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}
-                    >
-                      <MapPin className="size-8" style={{ color: "var(--primary)" }} />
-                    </div>
-                    <p className="text-sm font-medium text-center px-8" style={{ color: "color-mix(in oklch, var(--foreground) 55%, transparent)" }}>
-                      Clínicas da Mais60 Saúde<br />em BH e região metropolitana
-                    </p>
-                  </div>
                 </div>
 
                 {/* Círculos decorativos flutuantes */}

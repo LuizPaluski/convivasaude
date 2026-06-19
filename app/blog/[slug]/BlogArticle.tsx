@@ -457,7 +457,7 @@ function BlockRenderer({ block, onCta }: { block: ContentBlock; onCta: () => voi
           Quer acompanhamento médico para seu familiar?
         </p>
         <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--muted-foreground)" }}>
-          A Conviva Saúde oferece médico geriatra de referência, enfermeiro dedicado, equipe multidisciplinar e Pronto Cuidar por R$ 329/mês, sem carência, sem fidelidade.
+          A Conviva Saúde oferece médico geriatra de referência, enfermeiro dedicado, equipe multidisciplinar e Pronto Cuidar por R$ 329/mês, sem carência.
         </p>
         <div className="flex flex-col sm:flex-row gap-2">
           <button

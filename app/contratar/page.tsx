@@ -40,7 +40,7 @@ const BENEFICIOS = [
   "Pronto Cuidar (pronto atendimento para a pessoa idosa)",
   "Acompanhamento preventivo e contínuo",
   "Suporte à família por WhatsApp",
-  "Sem carência · Sem fidelidade",
+  "Sem carência · Sem reajuste por idade",
 ]
 
 // Shared input style helpers

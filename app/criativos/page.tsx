@@ -126,7 +126,7 @@ FEED 4:5:
 - Topo: "CONVIVA SAÚDE, BH E REGIÃO" azul médio #4A7FB5 uppercase pequeno
 - Centro: "R$ 329" gigante (fonte ~120px) branco bold + "/mês" médio
 - Abaixo: "Para qualquer idade. 60, 70, 80 anos, mesmo valor." branco
-- Lista: ✓ Médico de referência / ✓ Pronto Cuidar 24h / ✓ Sem carência · Sem fidelidade (itens em verde #4A9B6F)
+- Lista: ✓ Médico de referência / ✓ Pronto Cuidar 24h / ✓ Sem carência · Sem reajuste por idade (itens em verde #4A9B6F)
 - Botão CTA verde com texto branco: "Falar pelo WhatsApp →"
 - Logo branca na base
 
@@ -420,7 +420,7 @@ export default function CriativosPage() {
                     <p style={{ color: "rgba(255,255,255,0.8)", fontSize: 9.5, lineHeight: 1.4 }}>Para qualquer idade.<br />60, 70, 80 anos, mesmo valor.</p>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                    {["Médico de referência", "Pronto Cuidar 24h", "Sem carência · Sem fidelidade"].map(item => (
+                    {["Médico de referência", "Pronto Cuidar 24h", "Sem carência · Sem reajuste por idade"].map(item => (
                       <div key={item} style={{ display: "flex", alignItems: "center", gap: 5 }}>
                         <span style={{ color: COLORS.green, fontSize: 9, fontWeight: 700 }}>✓</span>
                         <span style={{ color: "#fff", fontSize: 9 }}>{item}</span>
@@ -446,7 +446,7 @@ export default function CriativosPage() {
                     <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }}>R$/mês · qualquer idade</p>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-                    {["Médico de referência", "Pronto Cuidar 24h", "Sem carência · Sem fidelidade"].map(item => (
+                    {["Médico de referência", "Pronto Cuidar 24h", "Sem carência · Sem reajuste por idade"].map(item => (
                       <div key={item} style={{ display: "flex", alignItems: "center", gap: 5 }}>
                         <span style={{ color: COLORS.green, fontSize: 9, fontWeight: 700 }}>✓</span>
                         <span style={{ color: "#fff", fontSize: 9 }}>{item}</span>
@@ -474,7 +474,7 @@ export default function CriativosPage() {
                   {/* Right 50% */}
                   <div style={{ flex: 1, padding: "28px 24px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                      {["Médico de referência", "Pronto Cuidar 24h", "Sem carência · Sem fidelidade"].map(item => (
+                      {["Médico de referência", "Pronto Cuidar 24h", "Sem carência · Sem reajuste por idade"].map(item => (
                         <div key={item} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                           <span style={{ color: COLORS.green, fontSize: 12, fontWeight: 700 }}>✓</span>
                           <span style={{ color: "#fff", fontSize: 12 }}>{item}</span>

@@ -750,7 +750,7 @@ export default function PlanosMidiaPage() {
                         "Geriatra em BH por R$329/mês",
                         "Médico Idoso BH - Sem Fila",
                         "Cuidado Geriátrico Coordenado",
-                        "Sem Carência · Sem Fidelidade",
+                        "Sem Carência · Sem Reajuste por Idade",
                         "Atendimento em 48h em BH",
                       ].map((h) => (
                         <div key={h} className="flex items-center gap-2 font-mono text-sm">

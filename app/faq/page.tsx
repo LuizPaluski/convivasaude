@@ -50,7 +50,7 @@ const categories = [
       },
       {
         q: "Tem fidelidade mínima?",
-        a: "Não. Você pode cancelar quando quiser, sem multa, com 30 dias de antecedência.",
+        a: "Sim. A Conviva tem fidelidade mínima de 4 meses. Após esse período, você pode cancelar quando quiser, avisando nossa equipe com 30 dias de antecedência.",
       },
       {
         q: "Posso contratar para outra pessoa?",

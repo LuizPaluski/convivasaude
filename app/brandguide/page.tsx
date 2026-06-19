@@ -257,7 +257,7 @@ export default function BrandGuidePage() {
                   "10 especialidades em um único pacote",
                   "Pronto Cuidar 24h exclusivo para idosos",
                   "Operado nas clínicas da Mais60 Saúde (10+ anos de experiência geriátrica)",
-                  "Sem carência, sem fidelidade, sem surpresa",
+                  "Sem carência, sem surpresa",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3 py-2.5 px-4 rounded-lg bg-muted/50">
                     <CheckCircle className="size-4 shrink-0 mt-0.5" style={{ color: "var(--success)" }} />

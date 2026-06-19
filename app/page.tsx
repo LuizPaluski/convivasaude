@@ -299,7 +299,7 @@ export default function HomePage() {
             </Button>
           </div>
           <p className="mt-4 text-xs" style={{ color: "color-mix(in oklch, var(--primary-foreground) 60%, transparent)" }}>
-            Atendimento rápido · Sem fidelidade · Cancelamento simples
+            Atendimento rápido · Sem carência · Sem reajuste por idade
           </p>
         </div>
       </section>
@@ -530,7 +530,7 @@ export default function HomePage() {
                 },
                 {
                   q: "Tem carência ou fidelidade?",
-                  a: "Não tem nenhuma das duas. O cuidado começa imediatamente após a contratação e você pode cancelar quando quiser, sem multa.",
+                  a: "Não há carência: o cuidado começa imediatamente após a contratação. A fidelidade mínima é de 4 meses e, após esse período, você pode cancelar quando quiser, avisando com 30 dias de antecedência.",
                 },
                 {
                   q: "Posso contratar para um familiar sendo eu de outra cidade?",
