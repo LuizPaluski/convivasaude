@@ -2,9 +2,10 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import {
-  ArrowRight, Info, ImageIcon,
+  ArrowRight, Info,
   MessageCircle, CheckSquare, Calendar, Heart, Bell,
   UserCheck, Phone, Shield, RefreshCw, Users, ChevronDown,
 } from "lucide-react"
@@ -257,11 +258,15 @@ export default function ComoFuncionaPage() {
           className="mx-auto max-w-6xl px-6"
           style={{ animation: "fadeUp 0.6s ease forwards", opacity: 0, animationDelay: "0.45s" }}
         >
-          <div className="relative w-full rounded-2xl overflow-hidden h-64 md:h-80 bg-muted/50 my-16">
-            <div className="absolute inset-0 flex items-center justify-center flex-col gap-2 text-muted-foreground">
-              <ImageIcon className="size-10 opacity-30" />
-              <p className="text-sm opacity-50">[ foto: atendimento humanizado / consulta geriátrica ]</p>
-            </div>
+          <div className="relative w-full rounded-2xl overflow-hidden h-64 md:h-96 bg-muted/50 my-16">
+            <Image
+              src="/atendimento-humanizado-geriatra.webp"
+              alt="Médica geriatra em consulta humanizada com paciente idosa em consultório da Conviva Saúde"
+              fill
+              className="object-cover"
+              style={{ objectPosition: "center 30%" }}
+              sizes="(max-width: 1152px) 100vw, 1152px"
+            />
           </div>
         </div>
 
