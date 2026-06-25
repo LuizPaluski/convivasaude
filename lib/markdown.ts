@@ -57,6 +57,12 @@ export function markdownToBlocks(md: string): ContentBlock[] {
       blocks.push({ type: "cta" })
       continue
     }
+    const img = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/)
+    if (img) {
+      flushParagraph(); flushList()
+      blocks.push({ type: "image", src: img[2].trim(), alt: img[1].trim() })
+      continue
+    }
     if (line.startsWith("### ")) {
       flushParagraph(); flushList()
       blocks.push({ type: "h3", text: line.slice(4).trim() })
@@ -97,6 +103,7 @@ export function blocksToMarkdown(blocks: ContentBlock[]): string {
       case "h3": parts.push(`### ${b.text}`); break
       case "blockquote": parts.push(`> ${b.text}`); break
       case "list": parts.push(b.items.map((i) => `- ${i}`).join("\n")); break
+      case "image": parts.push(`![${b.alt}](${b.src})`); break
       case "cta": parts.push("[cta]"); break
       case "p": parts.push(b.text); break
     }

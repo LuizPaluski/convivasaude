@@ -4,6 +4,7 @@ export type ContentBlock =
   | { type: "h3"; text: string }
   | { type: "blockquote"; text: string }
   | { type: "list"; items: string[] }
+  | { type: "image"; src: string; alt: string }
   | { type: "cta" }
 
 export interface BlogPost {

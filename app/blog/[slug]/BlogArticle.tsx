@@ -6,6 +6,7 @@ import { ArrowRight, ChevronRight, Clock, Calendar, Phone } from "lucide-react"
 import Footer from "@/components/Footer"
 import ContactForm from "@/components/ContactForm"
 import { CATEGORY_CONFIG, type BlogPost, type ContentBlock } from "@/lib/blog-data"
+import { renderInline } from "@/components/blog/inline"
 import { useState } from "react"
 import { X, MailIcon } from "lucide-react"
 
@@ -389,7 +390,7 @@ function BlockRenderer({ block, onCta }: { block: ContentBlock; onCta: () => voi
         className="mb-6 text-[17px] md:text-[18px] leading-[1.85]"
         style={{ color: "var(--foreground)" }}
       >
-        {block.text}
+        {renderInline(block.text)}
       </p>
     )
   }
@@ -409,7 +410,7 @@ function BlockRenderer({ block, onCta }: { block: ContentBlock; onCta: () => voi
   if (block.type === "h3") {
     return (
       <h3 className="text-xl font-semibold tracking-tight mt-8 mb-4" style={{ color: "var(--foreground)" }}>
-        {block.text}
+        {renderInline(block.text)}
       </h3>
     )
   }
@@ -423,7 +424,7 @@ function BlockRenderer({ block, onCta }: { block: ContentBlock; onCta: () => voi
           color: "var(--muted-foreground)",
         }}
       >
-        {block.text}
+        {renderInline(block.text)}
       </blockquote>
     )
   }
@@ -437,10 +438,30 @@ function BlockRenderer({ block, onCta }: { block: ContentBlock; onCta: () => voi
               className="mt-2.5 size-2 rounded-full shrink-0"
               style={{ background: "var(--primary)" }}
             />
-            <span style={{ color: "var(--foreground)" }}>{item}</span>
+            <span style={{ color: "var(--foreground)" }}>{renderInline(item)}</span>
           </li>
         ))}
       </ul>
+    )
+  }
+
+  if (block.type === "image") {
+    return (
+      <figure className="my-8">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={block.src}
+          alt={block.alt}
+          loading="lazy"
+          className="w-full rounded-2xl"
+          style={{ border: "1px solid var(--border)" }}
+        />
+        {block.alt && (
+          <figcaption className="text-xs mt-2 px-1" style={{ color: "var(--muted-foreground)" }}>
+            {block.alt}
+          </figcaption>
+        )}
+      </figure>
     )
   }
 
