@@ -7,7 +7,7 @@ import crypto from "node:crypto"
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 
-const MAX_BYTES = 5 * 1024 * 1024 // 5MB
+const MAX_BYTES = 50 * 1024 * 1024 // 50MB (cobre fotos 4K/8K de alta qualidade)
 const EXT_BY_TYPE: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",

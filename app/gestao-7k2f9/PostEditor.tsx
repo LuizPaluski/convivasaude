@@ -290,7 +290,7 @@ export default function PostEditor({ initial }: { initial?: EditorInitial }) {
           </Field>
 
           {/* ── Imagem de capa: upload nativo ou link direto ────────────── */}
-          <Field label="Imagem de capa" hint="Envie um arquivo do computador (JPG, PNG, WebP ou GIF, até 5MB). Ou cole um link direto de imagem e clique em Importar — a imagem é baixada e guardada no site.">
+          <Field label="Imagem de capa" hint="Envie um arquivo do computador (JPG, PNG, WebP ou GIF, até 50MB). Ou cole um link direto de imagem e clique em Importar — a imagem é baixada e guardada no site.">
             <div className="flex flex-col gap-3">
               <div className="flex flex-wrap items-center gap-3">
                 <input
@@ -512,7 +512,7 @@ function traduzErroUpload(code?: string): string {
   switch (code) {
     case "tipo_invalido": return "Formato não suportado. Use JPG, PNG, WebP ou GIF."
     case "heic_nao_suportado": return "Imagem em HEIC (formato padrão do Mac/iPhone) ainda não é suportada. Converta para JPG ou tire um print da imagem antes de enviar."
-    case "muito_grande": return "Imagem muito grande. O limite é 5MB."
+    case "muito_grande": return "Imagem muito grande. O limite é 50MB."
     case "sem_arquivo": return "Nenhum arquivo selecionado."
     case "url_invalida": return "Link inválido. Cole um endereço http(s) de imagem."
     case "url_inacessivel": return "Não foi possível acessar o link."
