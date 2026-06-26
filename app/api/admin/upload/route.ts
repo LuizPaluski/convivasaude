@@ -15,6 +15,30 @@ const EXT_BY_TYPE: Record<string, string> = {
   "image/gif": "gif",
 }
 
+const ALLOWED_EXT = new Set(["jpg", "jpeg", "png", "webp", "gif"])
+
+function extFromName(name: string): string {
+  return name.toLowerCase().match(/\.([a-z0-9]+)$/)?.[1] ?? ""
+}
+
+// Resolve a extensao pela MIME ou, quando vazia (Safari faz isso),
+// pelo nome do arquivo. Detecta HEIC/HEIF (foto padrao do Mac/iPhone).
+function resolveImageExt(file: File): { ext?: string; error?: string } {
+  const byType = EXT_BY_TYPE[file.type]
+  if (byType) return { ext: byType }
+
+  const type = file.type.toLowerCase()
+  const nameExt = extFromName(file.name)
+
+  if (type.includes("heic") || type.includes("heif") || nameExt === "heic" || nameExt === "heif") {
+    return { error: "heic_nao_suportado" }
+  }
+  if (ALLOWED_EXT.has(nameExt)) {
+    return { ext: nameExt === "jpeg" ? "jpg" : nameExt }
+  }
+  return { error: "tipo_invalido" }
+}
+
 function uploadDir(): string {
   const dir =
     process.env.BLOG_UPLOAD_DIR ?? path.join(process.cwd(), "data", "uploads")
@@ -120,9 +144,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "sem_arquivo" }, { status: 400 })
   }
 
-  const ext = EXT_BY_TYPE[file.type]
-  if (!ext) {
-    return NextResponse.json({ ok: false, error: "tipo_invalido" }, { status: 400 })
+  console.log(`[upload] name="${file.name}" type="${file.type || "(vazio)"}" size=${file.size}`)
+
+  const { ext, error } = resolveImageExt(file)
+  if (error || !ext) {
+    console.log(`[upload] rejeitado: ${error}`)
+    return NextResponse.json({ ok: false, error }, { status: 400 })
   }
   if (file.size > MAX_BYTES) {
     return NextResponse.json({ ok: false, error: "muito_grande" }, { status: 400 })

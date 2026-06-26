@@ -296,7 +296,7 @@ export default function PostEditor({ initial }: { initial?: EditorInitial }) {
                 <input
                   ref={fileRef}
                   type="file"
-                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  accept="image/*"
                   className="hidden"
                   onChange={(e) => {
                     const f = e.target.files?.[0]
@@ -369,7 +369,7 @@ export default function PostEditor({ initial }: { initial?: EditorInitial }) {
                 <input
                   ref={bodyFileRef}
                   type="file"
-                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  accept="image/*"
                   className="hidden"
                   onChange={(e) => {
                     const f = e.target.files?.[0]
@@ -511,6 +511,7 @@ function traduzErro(code?: string): string {
 function traduzErroUpload(code?: string): string {
   switch (code) {
     case "tipo_invalido": return "Formato não suportado. Use JPG, PNG, WebP ou GIF."
+    case "heic_nao_suportado": return "Imagem em HEIC (formato padrão do Mac/iPhone) ainda não é suportada. Converta para JPG ou tire um print da imagem antes de enviar."
     case "muito_grande": return "Imagem muito grande. O limite é 5MB."
     case "sem_arquivo": return "Nenhum arquivo selecionado."
     case "url_invalida": return "Link inválido. Cole um endereço http(s) de imagem."
